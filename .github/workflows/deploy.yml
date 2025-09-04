@@ -1,7 +1,8 @@
 name: Deploy Vite app (subfolder) to GitHub Pages
+
 on:
   push:
-    branches: [ main ]   # or your default branch
+    branches: [ main ]   # change if your default branch is different
   workflow_dispatch:
 
 permissions:
@@ -18,20 +19,25 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ai-spider-charts   # 👈 run commands in the subfolder
+        working-directory: ai-spider-charts   # ⬅️ run all commands in the app subfolder
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: 'npm'
+          cache: npm
           cache-dependency-path: ai-spider-charts/package-lock.json
+
       - run: npm ci
       - run: npm run build
+      # SPA fallback so reloads on deep routes work
       - run: cp dist/index.html dist/404.html
+
+      # Upload the built site from the subfolder
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: ai-spider-charts/dist        # 👈 upload the built subfolder
+          path: ai-spider-charts/dist
 
   deploy:
     needs: build

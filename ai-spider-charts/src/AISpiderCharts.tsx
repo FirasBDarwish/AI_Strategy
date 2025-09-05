@@ -24,7 +24,7 @@ import html2canvas from "html2canvas";
 const CRITERIA: { key: keyof UseCase["scores"]; label: string }[] = [
   { key: "dataReady", label: "Data Ready" },
   { key: "techMature", label: "Technology Mature" },
-  { key: "lowImplementationCost", label: "Low Implementation Cost" },
+  { key: "lowImplementationCost", label: "Resource-efficient" },
   { key: "reusable", label: "Reusable" },
   { key: "increasesProductivity", label: "Increases Productivity" },
   { key: "reducesCosts", label: "Reduces Costs" },

@@ -1,7 +1,7 @@
-import AISpiderCharts from "./AISpiderCharts";
+import AIReadinessAndScoring from "./Scoring_Readiness";
 
 function App() {
-  return <AISpiderCharts />;
+  return <AIReadinessAndScoring />;
 }
 
 export default App;

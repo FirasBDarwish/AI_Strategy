@@ -71,7 +71,7 @@ const emptyScores = () => ({
   noRisk: 50,
 });
 
-const defaultUseCases: UseCase[] = new Array(8).fill(null).map((_, i) => ({
+export const defaultUseCases: UseCase[] = new Array(8).fill(null).map((_, i) => ({
   id: i,
   name: `Use Case ${i + 1}`,
   description: "",
@@ -100,9 +100,9 @@ function rank(useCases: UseCase[]) {
     .map((u, idx) => ({ rank: idx + 1, name: u.name || `Use Case ${u.id + 1}` , avg: u.avg }));
 }
 
-export default function AISpiderCharts() {
-  const [useCases, setUseCases] = useState<UseCase[]>(defaultUseCases);
-  const [selected, setSelected] = useState<number>(0);
+export default function AISpiderCharts({useCases, setUseCases,}: {useCases: UseCase[];setUseCases: React.Dispatch<React.SetStateAction<UseCase[]>>;ß}) {
+  const [selected, setSelected] = useState<number>(0); // local UI-only state is fine
+
   const chartRef = useRef<HTMLDivElement>(null);
 
   const comparisonData = useMemo(() => {
@@ -235,34 +235,12 @@ export default function AISpiderCharts() {
 
   return (
     <TooltipProvider>
-      <div className="min-h-screen w-full bg-gradient-to-b from-slate-50 to-white p-6">
+      <div className="space-y-6">
         <div className="mx-auto max-w-7xl space-y-6">
           <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight">AI Use Case Spider Chart Generator</h1>
-              <p className="text-slate-600">Enter up to eight use cases, rate them on eight criteria (1–100), and visualize the results as spider charts.</p>
-            </div>
-            <div className="flex items-center gap-2">
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button variant="secondary" onClick={randomize}>
-                    <RefreshCw className="mr-2 h-4 w-4" /> Demo data
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>Populate scores with randomized demo values</TooltipContent>
-              </Tooltip>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button variant="outline" onClick={exportJSON}>
-                    <Download className="mr-2 h-4 w-4" /> Export JSON
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>Download all inputs as a JSON file</TooltipContent>
-              </Tooltip>
-              <div>
-                <Label htmlFor="import" className="sr-only">Import JSON</Label>
-                <Input id="import" type="file" accept="application/json" onChange={importJSON} />
-              </div>
+              <h1 className="text-3xl font-bold tracking-tight">Step 2: AI Use Case Ideation and Evaluation</h1>
+              <p className="text-slate-600">Enter and describe up to eight use cases, rate them on eight criteria (1–100), and visualize the results as spider charts.</p>
             </div>
           </header>
 
@@ -385,7 +363,7 @@ export default function AISpiderCharts() {
                 </CardContent>
               </Card>
 
-              <Card ref={detailRef}>
+              <Card>
                 <CardHeader className="flex flex-row items-center justify-between">
                   <CardTitle>
                     <span className="inline-flex items-center gap-2">
@@ -477,7 +455,6 @@ export default function AISpiderCharts() {
             </div>
           </div>
 
-          <footer className="pt-4 text-center text-xs text-slate-500">Made with Recharts + Tailwind + shadcn/ui</footer>
         </div>
       </div>
     </TooltipProvider>

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -251,7 +251,7 @@ function DepartmentReadiness({scores, setScores,}: {scores: ReadinessScores; set
             <Tabs defaultValue={READINESS[0].key}>
                 {/* Wrap the TabsList so it occupies full block flow and pushes content down */}
                 <div className="w-full min-h-[200px]"> 
-                <TabsList className="flex w-full flex-wrap justify-start gap-2">
+                <TabsList className="flex w-full flex-wrap justify-start gap-2" style={{ minHeight: "10rem" }}>
                     {READINESS.map((r) => (
                     <TabsTrigger
                         key={r.key}
@@ -386,13 +386,182 @@ function DepartmentReadiness({scores, setScores,}: {scores: ReadinessScores; set
 //   );
 // }
 
+const demoReadinessScores = {
+  dataMaturity: 3,
+  peopleSkills: 2,
+  processesWorkflows: 3,
+  governanceRisk: 2,
+  resourcesBudget: 3,
+  techInfra: 3,
+  changeReadiness: 4,
+  leadershipAlignment: 4,
+  partnerships: 3,
+  citizenOrientation: 4,
+  ethicsTrust: 3,
+  notes: "",
+};
+
+export const demoUseCases: UseCase[] = [
+  {
+    id: 0,
+    name: "Smart Visitor Forecasting",
+    description: "AI models predict visitor flows to museums, parks, and cultural sites to optimize staffing and avoid overcrowding.",
+    visible: true,
+    scores: {
+      dataReady: 75,
+      techMature: 80,
+      lowImplementationCost: 70,
+      reusable: 60,
+      increasesProductivity: 85,
+      reducesCosts: 70,
+      benefitsPublic: 85,
+      noRisk: 65,
+    },
+  },
+  {
+    id: 1,
+    name: "Personalized Itineraries",
+    description: "Recommender systems suggest tailored itineraries based on visitor preferences and historical data.",
+    visible: true,
+    scores: {
+      dataReady: 65,
+      techMature: 75,
+      lowImplementationCost: 60,
+      reusable: 75,
+      increasesProductivity: 70,
+      reducesCosts: 60,
+      benefitsPublic: 85,
+      noRisk: 60,
+    },
+  },
+  {
+    id: 2,
+    name: "Heritage Preservation AI",
+    description: "Computer vision detects early signs of degradation in monuments/artifacts from photos and drone scans.",
+    visible: true,
+    scores: {
+      dataReady: 45,
+      techMature: 55,
+      lowImplementationCost: 40,
+      reusable: 50,
+      increasesProductivity: 65,
+      reducesCosts: 55,
+      benefitsPublic: 80,
+      noRisk: 45,
+    },
+  },
+  {
+    id: 3,
+    name: "Tourist Query Assistant",
+    description: "Multilingual chatbot answers FAQs for tourists, reducing strain on call centers.",
+    visible: true,
+    scores: {
+      dataReady: 80,
+      techMature: 85,
+      lowImplementationCost: 80,
+      reusable: 70,
+      increasesProductivity: 80,
+      reducesCosts: 65,
+      benefitsPublic: 90,
+      noRisk: 70,
+    },
+  },
+  {
+    id: 4,
+    name: "Sentiment Analysis",
+    description: "Natural language processing of social media posts and reviews to gauge tourist satisfaction.",
+    visible: true,
+    scores: {
+      dataReady: 70,
+      techMature: 80,
+      lowImplementationCost: 65,
+      reusable: 60,
+      increasesProductivity: 70,
+      reducesCosts: 60,
+      benefitsPublic: 75,
+      noRisk: 65,
+    },
+  },
+  {
+    id: 5,
+    name: "Fraud Detection",
+    description: "AI detects unusual booking/payment patterns to prevent fraud.",
+    visible: true,
+    scores: {
+      dataReady: 65,
+      techMature: 80,
+      lowImplementationCost: 70,
+      reusable: 75,
+      increasesProductivity: 75,
+      reducesCosts: 85,
+      benefitsPublic: 60,
+      noRisk: 70,
+    },
+  },
+  {
+    id: 6,
+    name: "AR/VR Experiences",
+    description: "Immersive AI-powered VR tours for sites under renovation or with limited accessibility.",
+    visible: true,
+    scores: {
+      dataReady: 40,
+      techMature: 55,
+      lowImplementationCost: 35,
+      reusable: 60,
+      increasesProductivity: 70,
+      reducesCosts: 50,
+      benefitsPublic: 90,
+      noRisk: 40,
+    },
+  },
+  {
+    id: 7,
+    name: "Dynamic Pricing",
+    description: "AI optimizes ticket pricing based on demand, seasonality, and visitor demographics.",
+    visible: true,
+    scores: {
+      dataReady: 55,
+      techMature: 65,
+      lowImplementationCost: 50,
+      reusable: 70,
+      increasesProductivity: 65,
+      reducesCosts: 75,
+      benefitsPublic: 55,
+      noRisk: 55,
+    },
+  },
+];
+
+export const demoPlacements = {
+  0: { x: 0.80, y: 0.70 }, // Smart Visitor Forecasting
+  3: { x: 0.85, y: 0.70 }, // Tourist Query Assistant
+  1: { x: 0.50, y: 0.80 }, // Personalized Itineraries
+  2: { x: 0.25, y: 0.90 }, // Heritage AI
+  6: { x: 0.20, y: 0.90 }, // AR/VR
+  4: { x: 0.80, y: 0.40 }, // Sentiment Analysis
+  5: { x: 0.85, y: 0.40 }, // Fraud Detection
+  7: { x: 0.40, y: 0.40 }, // Dynamic Pricing
+}
+
 
 export default function AIReadinessAndScoring() {
+    const params = new URLSearchParams(window.location.search);
+
     const [step, setStep] = useState<"readiness" | "scoring">("readiness");
   
     const [scores, setScores] = useState<ReadinessScores>(defaultReadiness());
     const [useCases, setUseCases] = useState<UseCase[]>(defaultUseCases);
     const [placements, setPlacements] = useState<Record<number, { x: number; y: number }>>({});
+
+    
+  // 👇 ADD THIS useEffect block
+  if (params.get("mode") == "demo") {
+    useEffect(() => {
+      setScores(demoReadinessScores);
+      setUseCases(demoUseCases);
+      setPlacements(demoPlacements);
+    }, []);
+  }
 
     return (
         <TooltipProvider>

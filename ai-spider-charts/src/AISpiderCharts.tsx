@@ -260,7 +260,7 @@ export default function AISpiderCharts({useCases, setUseCases,}: {useCases: UseC
               </CardHeader>
               <CardContent className="space-y-4">
                 <Tabs value={String(selected)} onValueChange={(v) => setSelected(Number(v))}>
-                  <TabsList className="flex w-full flex-wrap justify-start gap-2 mb-10">
+                  <TabsList className="flex w-full flex-wrap justify-start gap-2 mb-10" style={{ minHeight: "10rem" }}>
                     {useCases.map((u, i) => (
                       <TabsTrigger key={u.id} value={String(i)} className="data-[state=active]:bg-slate-900 data-[state=active]:text-white">
                         {u.name || `Use Case ${i + 1}`}
@@ -277,6 +277,7 @@ export default function AISpiderCharts({useCases, setUseCases,}: {useCases: UseC
                             value={u.name}
                             onChange={(e) => updateMeta(i, "name", e.target.value)}
                             placeholder={`Use Case ${i + 1}`}
+                            maxLength={30}
                           />
                         </div>
                         <div className="flex flex-col space-y-2">

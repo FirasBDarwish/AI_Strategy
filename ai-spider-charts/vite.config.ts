@@ -4,7 +4,7 @@ import path from 'path'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/UseCase_SpiderChart_Split/', // 👈 important for GitHub Pages (repo name)
+  base: '/AI_Strategy/', // 👈 important for GitHub Pages (repo name)
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'), // 👈 match your tsconfig.json

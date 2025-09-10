@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { UseCase } from "./AISpiderCharts";
+import { Download, Upload } from "lucide-react";
 
 type Placements = Record<number, { x: number; y: number }> & { __activeId?: number }; // x: feasibility (0..1), y: impact (0..1)
 
@@ -46,10 +47,16 @@ export default function ImpactFeasibility({
   useCases,
   placements,
   setPlacements,
+  onDownloadPDF,
+  onExportAll,
+  onImportAll,
 }: {
   useCases: UseCase[];
   placements: Placements;
   setPlacements: React.Dispatch<React.SetStateAction<Placements>>;
+  onDownloadPDF?: () => void;
+  onExportAll?: () => void;
+  onImportAll?: (data: any) => void;
 }) {
   const boardRef = React.useRef<HTMLDivElement>(null);
 
@@ -78,6 +85,23 @@ export default function ImpactFeasibility({
 
     return { H1, H2, H3 };
   }, [useCases, placements]);
+
+  function handleImportJSON(evt: React.ChangeEvent<HTMLInputElement>) {
+    const file = evt.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const parsed = JSON.parse(String(reader.result));
+        onImportAll?.(parsed);
+      } catch (e) {
+        alert("Could not parse project JSON.");
+      }
+    };
+    reader.readAsText(file);
+    // reset the input so the same file can be re-imported if needed
+    evt.currentTarget.value = "";
+  }
 
   return (
     <div className="space-y-6">
@@ -226,6 +250,24 @@ export default function ImpactFeasibility({
           </div>
         </CardContent>
       </Card>
+      {/* --- Project Save/Load --- */}
+      <div className="flex justify-center mt-8 gap-3">
+        <Button onClick={() => onExportAll?.()}>
+          <Download className="mr-2 h-4 w-4" />
+          Export Project (.json)
+        </Button>
+
+        <label className="inline-flex items-center justify-center rounded-md border px-4 py-2 text-sm font-medium bg-white hover:bg-slate-50 cursor-pointer">
+          <Upload className="mr-2 h-4 w-4" />
+          Import Project (.json)
+          <input
+            type="file"
+            accept="application/json"
+            className="sr-only"
+            onChange={handleImportJSON}
+          />
+        </label>
+      </div>
     </div>
   );
 }

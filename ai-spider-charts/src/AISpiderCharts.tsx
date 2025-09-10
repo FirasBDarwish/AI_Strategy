@@ -15,7 +15,7 @@ import html2canvas from "html2canvas";
 
 /**
  * AI Use Case Spider Chart Generator
- * - Fill 8 use cases (name, description, and 8 criteria scored 1-100)
+ * - Fill 8 use cases (name, description, and 8 criteria scored 1-10)
  * - Toggle visibility per use case on the overlay radar chart
  * - See per-use-case spider chart & a comparison overlay
  * - Export PNG of the comparison chart; export/import JSON
@@ -61,14 +61,14 @@ export type UseCase = {
 };
 
 const emptyScores = () => ({
-  dataReady: 50,
-  techMature: 50,
-  lowImplementationCost: 50,
-  reusable: 50,
-  increasesProductivity: 50,
-  reducesCosts: 50,
-  benefitsPublic: 50,
-  noRisk: 50,
+  dataReady: 5,
+  techMature: 5,
+  lowImplementationCost: 5,
+  reusable: 5,
+  increasesProductivity: 5,
+  reducesCosts: 5,
+  benefitsPublic: 5,
+  noRisk: 5,
 });
 
 export const defaultUseCases: UseCase[] = new Array(8).fill(null).map((_, i) => ({
@@ -79,9 +79,9 @@ export const defaultUseCases: UseCase[] = new Array(8).fill(null).map((_, i) => 
   scores: emptyScores(),
 }));
 
-function clamp01to100(n: number) {
+function clamp01to10(n: number) {
   if (Number.isNaN(n)) return 0;
-  return Math.max(1, Math.min(100, Math.round(n)));
+  return Math.max(1, Math.min(10, Math.round(n)));
 }
 
 function toRadarData(useCase: UseCase) {
@@ -123,7 +123,7 @@ export default function AISpiderCharts({useCases, setUseCases,}: {useCases: UseC
       const next = [...prev];
       next[idx] = {
         ...next[idx],
-        scores: { ...next[idx].scores, [key]: clamp01to100(value) },
+        scores: { ...next[idx].scores, [key]: clamp01to10(value) },
       };
       return next;
     });
@@ -227,8 +227,29 @@ export default function AISpiderCharts({useCases, setUseCases,}: {useCases: UseC
     a.click();
   }
   
+  const renderLegend = ({ payload }) => (
+    <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 mt-4">
+      {payload.map((entry, index) => (
+        <div
+          key={`item-${index}`}
+          className="flex items-center gap-2 max-w-[250px]"
+        >
+          <span
+            className="block h-3 w-3 rounded-sm shrink-0"
+            style={{ backgroundColor: entry.color }}
+          />
+          <span className="text-sm break-words">{entry.value}</span>
+        </div>
+      ))}
+    </div>
+  );
   
-  
+// Create a new payload based on your useCases data
+const legendPayload = useCases.map((u, i) => ({
+  value: u.name || `Use Case ${u.id + 1}`,
+  color: COLORS[i % COLORS.length],
+  // You might need other properties like 'id' and 'type' for advanced customization
+}));
 
   const active = useCases[selected];
   const detailRef = useRef<HTMLDivElement>(null);
@@ -240,14 +261,14 @@ export default function AISpiderCharts({useCases, setUseCases,}: {useCases: UseC
           <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h1 className="text-3xl font-bold tracking-tight">Step 2: AI Use Case Ideation and Evaluation</h1>
-              <p className="text-slate-600">Enter and describe up to eight use cases, rate them on eight criteria (1–100), and visualize the results as spider charts.</p>
+              <p className="text-slate-600">Enter and describe up to eight use cases, rate them on eight criteria (1-10), and visualize the results as spider charts.</p>
             </div>
           </header>
 
           <Alert>
             <AlertTitle>Scoring Guide</AlertTitle>
             <AlertDescription>
-              Each criterion must be scored between <strong>1</strong> and <strong>100</strong>. Higher is better. For example, a higher
+              Each criterion must be scored between <strong>1</strong> and <strong>10</strong>. Higher is better. For example, a higher
               score in <em>Low Implementation Cost</em> means the use case is cheaper to build.
             </AlertDescription>
           </Alert>
@@ -260,9 +281,13 @@ export default function AISpiderCharts({useCases, setUseCases,}: {useCases: UseC
               </CardHeader>
               <CardContent className="space-y-4">
                 <Tabs value={String(selected)} onValueChange={(v) => setSelected(Number(v))}>
-                  <TabsList className="flex w-full flex-wrap justify-start gap-2 mb-10" style={{ minHeight: "10rem" }}>
+                  <TabsList className="flex w-full flex-wrap justify-center gap-2 mb-10" style={{minHeight: "18rem" }}>
                     {useCases.map((u, i) => (
-                      <TabsTrigger key={u.id} value={String(i)} className="data-[state=active]:bg-slate-900 data-[state=active]:text-white">
+                          <TabsTrigger
+                          key={u.id}
+                          value={String(i)}
+                          className="whitespace-normal break-words text-center px-3 py-2 max-w-[10rem] data-[state=active]:bg-slate-900 data-[state=active]:text-white"
+                        >
                         {u.name || `Use Case ${i + 1}`}
                       </TabsTrigger>
                     ))}
@@ -310,7 +335,7 @@ export default function AISpiderCharts({useCases, setUseCases,}: {useCases: UseC
                                 type="number"
                                 className="h-8 w-20"
                                 min={1}
-                                max={100}
+                                max={10}
                                 value={u.scores[key]}
                                 onChange={(e) => updateScore(i, key, Number(e.target.value))}
                               />
@@ -318,7 +343,7 @@ export default function AISpiderCharts({useCases, setUseCases,}: {useCases: UseC
                             <input
                               type="range"
                               min={1}
-                              max={100}
+                              max={10}
                               value={u.scores[key]}
                               onChange={(e) => updateScore(i, key, Number(e.target.value))}
                               className="w-full"
@@ -345,21 +370,46 @@ export default function AISpiderCharts({useCases, setUseCases,}: {useCases: UseC
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div ref={chartRef} className="h-[440px] w-full">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <RadarChart data={comparisonData} outerRadius={140}>
+                  <div ref={chartRef} className="h-600px] w-full min-h-700">
+                    <ResponsiveContainer width="100%" height={400}>
+                      <RadarChart data={comparisonData} outerRadius={160}>
                         <PolarGrid />
                         <PolarAngleAxis dataKey="criterion" />
-                        <PolarRadiusAxis domain={[0, 100]} tickCount={6} />
-                        {useCases.map((u, i) => (
-                          u.visible && (
-                            <Radar key={u.id} name={u.name || `Use Case ${i + 1}`} dataKey={u.name || `Use Case ${i + 1}`} stroke={COLORS[i % COLORS.length]} fill={COLORS[i % COLORS.length]} fillOpacity={0.2} />
-                          )
-                        ))}
+                        <PolarRadiusAxis domain={[0, 10]} tickCount={6} />
+                        {useCases.map(
+                          (u, i) =>
+                            u.visible && (
+                              <Radar
+                                key={u.id}
+                                name={u.name || `Use Case ${i + 1}`}
+                                dataKey={u.name || `Use Case ${i + 1}`}
+                                stroke={COLORS[i % COLORS.length]}
+                                fill={COLORS[i % COLORS.length]}
+                                fillOpacity={0.2}
+                              />
+                            )
+                        )}
                         <RechartsTooltip />
-                        <Legend />
                       </RadarChart>
                     </ResponsiveContainer>
+
+                    {/* Custom legend in DOM flow with flex-wrap for better wrapping */}
+                    <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 mt-4">
+                      {useCases.map((u, i) =>
+                        u.visible && (
+                          <div
+                            key={u.id}
+                            className="flex items-center gap-2 max-w-[250px]"
+                          >
+                            <span
+                              className="block h-3 w-3 rounded-sm shrink-0"
+                              style={{ backgroundColor: COLORS[i % COLORS.length] }}
+                            />
+                            <span className="text-sm break-words">{u.name || `Use Case ${u.id + 1}`}</span>
+                          </div>
+                        )
+                      )}
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -399,7 +449,7 @@ export default function AISpiderCharts({useCases, setUseCases,}: {useCases: UseC
                       <RadarChart data={toRadarData(active)} outerRadius={130}>
                         <PolarGrid />
                         <PolarAngleAxis dataKey="criterion" />
-                        <PolarRadiusAxis domain={[0, 100]} tickCount={6} />
+                        <PolarRadiusAxis domain={[0, 10]} tickCount={6} />
                         <Radar
                           name={active?.name || `Use Case ${selected + 1}`}
                           dataKey="value"

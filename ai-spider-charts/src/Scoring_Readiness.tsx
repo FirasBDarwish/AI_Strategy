@@ -251,7 +251,7 @@ function DepartmentReadiness({scores, setScores,}: {scores: ReadinessScores; set
             <Tabs defaultValue={READINESS[0].key}>
                 {/* Wrap the TabsList so it occupies full block flow and pushes content down */}
                 <div className="w-full min-h-[200px]"> 
-                <TabsList className="flex w-full flex-wrap justify-start gap-2" style={{ minHeight: "10rem" }}>
+                <TabsList className="flex w-full flex-wrap justify-start gap-2" style={{ minHeight: "13.5rem" }}>
                     {READINESS.map((r) => (
                     <TabsTrigger
                         key={r.key}
@@ -408,14 +408,14 @@ export const demoUseCases: UseCase[] = [
     description: "AI models predict visitor flows to museums, parks, and cultural sites to optimize staffing and avoid overcrowding.",
     visible: true,
     scores: {
-      dataReady: 75,
-      techMature: 80,
-      lowImplementationCost: 70,
-      reusable: 60,
-      increasesProductivity: 85,
-      reducesCosts: 70,
-      benefitsPublic: 85,
-      noRisk: 65,
+      dataReady: 8,
+      techMature: 8,
+      lowImplementationCost: 7,
+      reusable: 6,
+      increasesProductivity: 9,
+      reducesCosts: 7,
+      benefitsPublic: 9,
+      noRisk: 7,
     },
   },
   {
@@ -424,14 +424,14 @@ export const demoUseCases: UseCase[] = [
     description: "Recommender systems suggest tailored itineraries based on visitor preferences and historical data.",
     visible: true,
     scores: {
-      dataReady: 65,
-      techMature: 75,
-      lowImplementationCost: 60,
-      reusable: 75,
-      increasesProductivity: 70,
-      reducesCosts: 60,
-      benefitsPublic: 85,
-      noRisk: 60,
+      dataReady: 7,
+      techMature: 8,
+      lowImplementationCost: 6,
+      reusable: 8,
+      increasesProductivity: 7,
+      reducesCosts: 6,
+      benefitsPublic: 9,
+      noRisk: 6,
     },
   },
   {
@@ -440,14 +440,14 @@ export const demoUseCases: UseCase[] = [
     description: "Computer vision detects early signs of degradation in monuments/artifacts from photos and drone scans.",
     visible: true,
     scores: {
-      dataReady: 45,
-      techMature: 55,
-      lowImplementationCost: 40,
-      reusable: 50,
-      increasesProductivity: 65,
-      reducesCosts: 55,
-      benefitsPublic: 80,
-      noRisk: 45,
+      dataReady: 5,
+      techMature: 6,
+      lowImplementationCost: 4,
+      reusable: 5,
+      increasesProductivity: 7,
+      reducesCosts: 6,
+      benefitsPublic: 8,
+      noRisk: 5,
     },
   },
   {
@@ -456,14 +456,14 @@ export const demoUseCases: UseCase[] = [
     description: "Multilingual chatbot answers FAQs for tourists, reducing strain on call centers.",
     visible: true,
     scores: {
-      dataReady: 80,
-      techMature: 85,
-      lowImplementationCost: 80,
-      reusable: 70,
-      increasesProductivity: 80,
-      reducesCosts: 65,
-      benefitsPublic: 90,
-      noRisk: 70,
+      dataReady: 8,
+      techMature: 9,
+      lowImplementationCost: 8,
+      reusable: 7,
+      increasesProductivity: 8,
+      reducesCosts: 7,
+      benefitsPublic: 9,
+      noRisk: 7,
     },
   },
   {
@@ -472,14 +472,14 @@ export const demoUseCases: UseCase[] = [
     description: "Natural language processing of social media posts and reviews to gauge tourist satisfaction.",
     visible: true,
     scores: {
-      dataReady: 70,
-      techMature: 80,
-      lowImplementationCost: 65,
-      reusable: 60,
-      increasesProductivity: 70,
-      reducesCosts: 60,
-      benefitsPublic: 75,
-      noRisk: 65,
+      dataReady: 7,
+      techMature: 8,
+      lowImplementationCost: 7,
+      reusable: 6,
+      increasesProductivity: 7,
+      reducesCosts: 6,
+      benefitsPublic: 8,
+      noRisk: 7,
     },
   },
   {
@@ -488,14 +488,14 @@ export const demoUseCases: UseCase[] = [
     description: "AI detects unusual booking/payment patterns to prevent fraud.",
     visible: true,
     scores: {
-      dataReady: 65,
-      techMature: 80,
-      lowImplementationCost: 70,
-      reusable: 75,
-      increasesProductivity: 75,
-      reducesCosts: 85,
-      benefitsPublic: 60,
-      noRisk: 70,
+      dataReady: 7,
+      techMature: 8,
+      lowImplementationCost: 7,
+      reusable: 8,
+      increasesProductivity: 8,
+      reducesCosts: 9,
+      benefitsPublic: 6,
+      noRisk: 7,
     },
   },
   {
@@ -504,14 +504,14 @@ export const demoUseCases: UseCase[] = [
     description: "Immersive AI-powered VR tours for sites under renovation or with limited accessibility.",
     visible: true,
     scores: {
-      dataReady: 40,
-      techMature: 55,
-      lowImplementationCost: 35,
-      reusable: 60,
-      increasesProductivity: 70,
-      reducesCosts: 50,
-      benefitsPublic: 90,
-      noRisk: 40,
+      dataReady: 4,
+      techMature: 6,
+      lowImplementationCost: 4,
+      reusable: 6,
+      increasesProductivity: 7,
+      reducesCosts: 5,
+      benefitsPublic: 9,
+      noRisk: 4,
     },
   },
   {
@@ -520,14 +520,14 @@ export const demoUseCases: UseCase[] = [
     description: "AI optimizes ticket pricing based on demand, seasonality, and visitor demographics.",
     visible: true,
     scores: {
-      dataReady: 55,
-      techMature: 65,
-      lowImplementationCost: 50,
-      reusable: 70,
-      increasesProductivity: 65,
-      reducesCosts: 75,
-      benefitsPublic: 55,
-      noRisk: 55,
+      dataReady: 6,
+      techMature: 7,
+      lowImplementationCost: 5,
+      reusable: 7,
+      increasesProductivity: 7,
+      reducesCosts: 8,
+      benefitsPublic: 6,
+      noRisk: 6,
     },
   },
 ];
@@ -561,6 +561,124 @@ export default function AIReadinessAndScoring() {
       setUseCases(demoUseCases);
       setPlacements(demoPlacements);
     }, []);
+  }
+
+  function clamp1to5(n: any) {
+    const num = Math.round(Number(n));
+    if (Number.isNaN(num)) return 1;
+    return Math.max(1, Math.min(5, num));
+  }
+
+  function clamp1to10(n: any) {
+    const num = Math.round(Number(n));
+    if (Number.isNaN(num)) return 1;
+    return Math.max(1, Math.min(10, num));
+  }
+
+  function exportProject() {
+    const payload = {
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      scores,
+      useCases,
+      placements,
+    };
+    const data = JSON.stringify(payload, null, 2);
+    const blob = new Blob([data], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "ai-project-export.json";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function importProject(payload: any) {
+    try {
+      // --- Scores ---
+      const nextScores: ReadinessScores = { ...defaultReadiness() };
+      if (payload?.scores && typeof payload.scores === "object") {
+        // Coerce each readiness key to 1..5 (use the READINESS keys we already have)
+        READINESS.forEach((r) => {
+          nextScores[r.key] = clamp1to5(payload.scores[r.key]);
+        });
+        // Preserve notes if present (optional in your type)
+        if (typeof payload.scores.notes === "string") {
+          nextScores.notes = payload.scores.notes;
+        }
+      }
+
+      // --- Use cases (expect 8; fill/repair if needed) ---
+      let incomingUC = Array.isArray(payload?.useCases) ? payload.useCases : [];
+      if (incomingUC.length < 8) {
+        incomingUC = [
+          ...incomingUC,
+          ...new Array(8 - incomingUC.length).fill(null).map((_, i) => ({
+            id: i,
+            name: `Use Case ${i + 1}`,
+            description: "",
+            visible: true,
+            scores: {
+              dataReady: 5,
+              techMature: 5,
+              lowImplementationCost: 5,
+              reusable: 5,
+              increasesProductivity: 5,
+              reducesCosts: 5,
+              benefitsPublic: 5,
+              noRisk: 5,
+            },
+          })),
+        ];
+      } else if (incomingUC.length > 8) {
+        incomingUC = incomingUC.slice(0, 8);
+      }
+
+      const nextUseCases = incomingUC.map((u: any, i: number) => ({
+        id: i,
+        name: typeof u?.name === "string" ? u.name : `Use Case ${i + 1}`,
+        description: typeof u?.description === "string" ? u.description : "",
+        visible: typeof u?.visible === "boolean" ? u.visible : true,
+        scores: {
+          dataReady: clamp1to10(u?.scores?.dataReady),
+          techMature: clamp1to10(u?.scores?.techMature),
+          lowImplementationCost: clamp1to10(u?.scores?.lowImplementationCost),
+          reusable: clamp1to10(u?.scores?.reusable),
+          increasesProductivity: clamp1to10(u?.scores?.increasesProductivity),
+          reducesCosts: clamp1to10(u?.scores?.reducesCosts),
+          benefitsPublic: clamp1to10(u?.scores?.benefitsPublic),
+          noRisk: clamp1to10(u?.scores?.noRisk),
+        },
+      }));
+
+      // --- Placements (x,y in 0..1) ---
+      const nextPlacements: Record<number, { x: number; y: number }> = {};
+      if (payload?.placements && typeof payload.placements === "object") {
+        Object.keys(payload.placements).forEach((k) => {
+          const id = Number(k);
+          const p = payload.placements[k];
+          if (Number.isInteger(id) && p && typeof p === "object") {
+            const x = Math.max(0, Math.min(1, Number(p.x)));
+            const y = Math.max(0, Math.min(1, Number(p.y)));
+            if (!Number.isNaN(x) && !Number.isNaN(y)) {
+              nextPlacements[id] = { x, y };
+            }
+          }
+        });
+      }
+
+      // --- Apply in one shot ---
+      setScores(nextScores);
+      setUseCases(nextUseCases);
+      setPlacements(nextPlacements);
+
+      // Optional: jump user to the Prioritization view they’re working in
+      // setStep("prioritization");
+      alert("Project imported successfully.");
+    } catch (e) {
+      console.error(e);
+      alert("Import failed. Please check the JSON structure.");
+    }
   }
 
     return (
@@ -606,9 +724,25 @@ export default function AIReadinessAndScoring() {
                   useCases={useCases}
                   placements={placements}
                   setPlacements={setPlacements}
+                  onExportAll={exportProject}
+                  onImportAll={importProject} 
                 />
               )}
             </div>
+            <footer className="mt-12 border-t pt-6 text-center text-sm text-slate-600">
+              <p>Designed by <span className="font-medium">Firas Darwish</span> & <span className="font-medium">Dhiyaa Al Jorf</span></p>
+              <p className="mt-1">
+                <span >Hosted on </span>
+                <a 
+                  href="https://firasdarwish.com" 
+                  className="text-blue-600 hover:text-blue-800 underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                firasdarwish.com
+                </a>
+              </p>
+            </footer>
           </div>
         </TooltipProvider>
       );

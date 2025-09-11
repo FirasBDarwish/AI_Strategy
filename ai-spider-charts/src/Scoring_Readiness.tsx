@@ -388,10 +388,10 @@ function DepartmentReadiness({scores, setScores,}: {scores: ReadinessScores; set
 
 const demoReadinessScores = {
   dataMaturity: 3,
-  peopleSkills: 2,
+  peopleSkills: 4,
   processesWorkflows: 3,
   governanceRisk: 2,
-  resourcesBudget: 3,
+  resourcesBudget: 1,
   techInfra: 3,
   changeReadiness: 4,
   leadershipAlignment: 4,

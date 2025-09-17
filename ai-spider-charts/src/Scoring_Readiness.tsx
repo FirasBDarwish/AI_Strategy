@@ -28,7 +28,7 @@ type ReadinessKey =
   | "citizenOrientation"
   | "ethicsTrust";
 
-const READINESS: {
+export const READINESS: {
   key: ReadinessKey;
   label: string;
   help: { one: string; three: string; five: string };
@@ -725,7 +725,8 @@ export default function AIReadinessAndScoring() {
                   placements={placements}
                   setPlacements={setPlacements}
                   onExportAll={exportProject}
-                  onImportAll={importProject} 
+                  onImportAll={importProject}
+                  readinessScores={scores}
                 />
               )}
             </div>

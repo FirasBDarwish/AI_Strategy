@@ -3,10 +3,24 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { UseCase } from "./AISpiderCharts";
+import { UseCase, CRITERIA } from "./AISpiderCharts";
+import { READINESS, ReadinessScores } from "./Scoring_Readiness";
 import { Download, Upload } from "lucide-react";
 
 type Placements = Record<number, { x: number; y: number }> & { __activeId?: number }; // x: feasibility (0..1), y: impact (0..1)
+
+const COLORS = [
+  "#e6194B", // Red
+  "#3cb44b", // Green
+  "#808000", // Olive
+  "#4363d8", // Blue
+  "#f58231", // Orange
+  "#911eb4", // Purple
+  "#42d4f4", // Cyan
+  "#f032e6", // Magenta
+  "#469990", // Teal
+  "#9A6324", // Brown
+];
 
 function clamp01(n: number) {
   return Math.max(0, Math.min(1, n));
@@ -50,6 +64,7 @@ export default function ImpactFeasibility({
   onDownloadPDF,
   onExportAll,
   onImportAll,
+  readinessScores,
 }: {
   useCases: UseCase[];
   placements: Placements;
@@ -57,8 +72,10 @@ export default function ImpactFeasibility({
   onDownloadPDF?: () => void;
   onExportAll?: () => void;
   onImportAll?: (data: any) => void;
+  readinessScores: ReadinessScores;
 }) {
   const boardRef = React.useRef<HTMLDivElement>(null);
+  const [selectedDetail, setSelectedDetail] = React.useState<UseCase | null>(null);
 
   const { start } = useDragPlace(boardRef, (x, y) => {
     setPlacements((prev) => {
@@ -190,8 +207,15 @@ export default function ImpactFeasibility({
                               bottom: `${pos.y * 100}%`,
                             }}
                           >
-                        <span className="inline-block rounded-full bg-slate-900 text-white px-3 py-1 text-sm sm:text-base font-semibold shadow-sm ring-1 ring-black/10">
-                        {u.id + 1}
+                        <span
+                          className="inline-block rounded-full px-3 py-1 text-sm sm:text-base font-semibold shadow-sm border-2"
+                          style={{
+                            color: COLORS[u.id % COLORS.length], // hard text color
+                            borderColor: COLORS[u.id % COLORS.length], // border in hard color
+                            backgroundColor: `${COLORS[u.id % COLORS.length]}33`, // soft fill (~20%)
+                          }}
+                        >
+                          {u.id + 1}
                         </span>
                           </button>
                         </TooltipTrigger>
@@ -211,16 +235,122 @@ export default function ImpactFeasibility({
             <div className="text-sm font-medium text-slate-700">Use Case Numbers</div>
             <Separator />
             <div className="space-y-1">
-                {useCases.map((u) => (
-                <div key={u.id} className="flex items-center gap-3 text-sm">
-                    <span className="inline-block w-7 h-7 shrink-0 rounded-full bg-slate-900 text-white grid place-items-center text-sm font-semibold">
-                    {u.id + 1}
+              {useCases.map((u) => {
+                const isSelected = selectedDetail?.id === u.id;
+                return (
+                  <div
+                    key={u.id}
+                    className={`flex items-center gap-3 text-sm cursor-pointer rounded-md px-2 py-1 transition-colors`}
+                    onClick={() =>
+                      setSelectedDetail((prev) => (prev?.id === u.id ? null : u))
+                    }
+                    style={{
+                      backgroundColor: isSelected
+                        ? `${COLORS[u.id % COLORS.length]}22` // soft highlight when selected
+                        : "transparent",
+                      border: isSelected ? `2px solid ${COLORS[u.id % COLORS.length]}` : "2px solid transparent",
+                    }}
+                  >
+                    <span
+                      className="inline-block w-7 h-7 shrink-0 rounded-full grid place-items-center text-sm font-semibold border-2"
+                      style={{
+                        color: COLORS[u.id % COLORS.length],
+                        borderColor: COLORS[u.id % COLORS.length],
+                        backgroundColor: `${COLORS[u.id % COLORS.length]}33`,
+                      }}
+                    >
+                      {u.id + 1}
                     </span>
-                    <span className="truncate">{u.name || `Use Case ${u.id + 1}`}</span>
-                </div>
-                ))}
+                    <span
+                      className="truncate font-medium"
+                      style={{ color: COLORS[u.id % COLORS.length] }}
+                    >
+                      {u.name || `Use Case ${u.id + 1}`}
+                    </span>
+                  </div>
+                );
+              })}
             </div>
             <Separator />
+            {selectedDetail && (
+              <div className="mt-4">
+                <div className="text-sm font-medium mb-2">
+                  {selectedDetail.name} — Detailed Evaluation
+                </div>
+                <table className="min-w-full text-sm border">
+                  <tbody>
+                    {CRITERIA.map(({ key, label, group, descriptions }) => (
+                      <tr
+                        key={key}
+                        className="border-b last:border-0"
+                        style={{
+                          backgroundColor:
+                            group === "Impact" ? "rgba(251,191,36,0.1)" : "rgba(56,189,248,0.1)",
+                        }}
+                      >
+                        <td
+                          className="py-2 px-3 font-medium border-r"
+                          style={{
+                            color: group === "Impact" ? "#b45309" : "#0369a1",
+                            borderColor: group === "Impact" ? "#b45309" : "#0369a1",
+                          }}
+                        >
+                          {label}
+                        </td>
+                        <td className="py-2 px-3 text-right">
+                          <TooltipProvider delayDuration={500}>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <span className="cursor-help font-semibold">
+                                  {selectedDetail.scores[key]}
+                                </span>
+                              </TooltipTrigger>
+                              <TooltipContent className="max-w-xs text-xs">
+                                <p><strong>0:</strong> {descriptions[0]}</p>
+                                <p><strong>5:</strong> {descriptions[5]}</p>
+                                <p><strong>10:</strong> {descriptions[10]}</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+            <Separator />
+            {/* --- Department Readiness Breakdown --- */}
+            <div className="mt-6">
+              <div className="text-sm font-medium mb-2">Department Readiness Breakdown</div>
+              <table className="min-w-full text-sm border">
+                <tbody>
+                  {READINESS.map((r) => (
+                    <tr key={r.key} className="border-b last:border-0">
+                      <td className="py-2 px-3 font-medium border-r text-slate-700">
+                        {r.label}
+                      </td>
+                      <td className="py-2 px-3 text-right">
+                        <TooltipProvider delayDuration={500}>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <span className="cursor-help font-semibold">
+                                {readinessScores[r.key]}
+                              </span>
+                            </TooltipTrigger>
+                            <TooltipContent className="max-w-xs text-xs">
+                              <p><strong>1:</strong> {r.help.one}</p>
+                              <p><strong>3:</strong> {r.help.three}</p>
+                              <p><strong>5:</strong> {r.help.five}</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
             </div>
           </div>
         </CardContent>
@@ -280,11 +410,16 @@ function HorizonColumn({ title, items }: { title: string; items: UseCase[] }) {
         <div className="flex flex-wrap gap-2">
           {items.map((u) => (
             <span
-              key={u.id}
-              className="inline-block rounded-md bg-slate-100 px-2 py-1 text-sm text-slate-700"
-            >
-              {u.id + 1}. {u.name || `Use Case ${u.id + 1}`}
-            </span>
+            key={u.id}
+            className="inline-block rounded-md px-2 py-1 text-sm font-semibold border-2"
+            style={{
+              color: COLORS[u.id % COLORS.length],
+              borderColor: COLORS[u.id % COLORS.length],
+              backgroundColor: `${COLORS[u.id % COLORS.length]}33`,
+            }}
+          >
+            {u.id + 1}. {u.name || `Use Case ${u.id + 1}`}
+          </span>
           ))}
         </div>
       </div>

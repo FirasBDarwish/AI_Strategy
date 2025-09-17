@@ -21,26 +21,105 @@ import html2canvas from "html2canvas";
  * - Export PNG of the comparison chart; export/import JSON
  */
 
-const CRITERIA: { key: keyof UseCase["scores"]; label: string }[] = [
-  { key: "dataReady", label: "Data Ready" },
-  { key: "techMature", label: "Technology Mature" },
-  { key: "lowImplementationCost", label: "Resource-Efficient" },
-  { key: "reusable", label: "Reusable" },
-  { key: "increasesProductivity", label: "Increases Productivity" },
-  { key: "reducesCosts", label: "Reduces Costs" },
-  { key: "benefitsPublic", label: "Benefits Public" },
-  { key: "noRisk", label: "No Risk" },
+export const CRITERIA: {
+  key: keyof UseCase["scores"];
+  label: string;
+  group: "Impact" | "Feasibility";
+  descriptions: { 0: string; 5: string; 10: string };
+}[] = [
+  {
+    key: "increasesProductivity",
+    label: "Increases Productivity",
+    group: "Impact",
+    descriptions: {
+      0: "Use case offers no measurable productivity improvement",
+      5: "Moderate improvement in productivity",
+      10: "Use case could offer significant productivity boost across organization",
+    },
+  },
+  {
+    key: "reducesCosts",
+    label: "Reduces Costs",
+    group: "Impact",
+    descriptions: {
+      0: "Use case offers no cost savings",
+      5: "Moderate savings in some processes",
+      10: "Use case offers major cost reductions across operations",
+    },
+  },
+  {
+    key: "benefitsPublic",
+    label: "Benefits Public",
+    group: "Impact",
+    descriptions: {
+      0: "Use case offers no public benefit",
+      5: "Some benefit for limited groups",
+      10: "Use case offers wide-reaching public benefit",
+    },
+  },
+  {
+    key: "dataReady",
+    label: "Data Ready",
+    group: "Feasibility",
+    descriptions: {
+      0: "Use case does not require much clean, structured, ready-to-use data",
+      5: "Partial / incomplete data requirements",
+      10: "Use case requires high-quality, ready-to-use data",
+    },
+  },
+  {
+    key: "techMature",
+    label: "Technology Mature",
+    group: "Feasibility",
+    descriptions: {
+      0: "Use case needs technology that is immature or still experimental and not ready to use",
+      5: "Use case requires technology that is semi-reliable but requires adaptation",
+      10: "Use case requires technology that is fully mature and reliable",
+    },
+  },
+  {
+    key: "lowImplementationCost",
+    label: "Resource-Efficient",
+    group: "Feasibility",
+    descriptions: {
+      0: "Extremely costly to implement use case",
+      5: "Moderate resources required",
+      10: "Very low implementation cost of use case",
+    },
+  },
+  {
+    key: "reusable",
+    label: "Reusable",
+    group: "Feasibility",
+    descriptions: {
+      0: "Use case is not reusable",
+      5: "Use case is reusable with modifications",
+      10: "Use case is highly reusable across multiple contexts",
+    },
+  },
+  {
+    key: "noRisk",
+    label: "No Risk",
+    group: "Feasibility",
+    descriptions: {
+      0: "High risks (legal, ethical, reputational) associated with developing and deploying use case",
+      5: "Some risks associated with developing and deploying use case but are overall manageable",
+      10: "Minimal or no risks associated with developing and deploying use case",
+    },
+  },
 ];
 
 const COLORS = [
-  "#2563eb", // blue-600
-  "#16a34a", // green-600
-  "#db2777", // pink-600
-  "#f59e0b", // amber-500
-  "#7c3aed", // violet-600
-  "#dc2626", // red-600
-  "#0ea5e9", // sky-500
-  "#059669", // emerald-600
+  "#e6194B", // Red
+  "#3cb44b", // Green
+  "#808000", // Olive
+  "#4363d8", // Blue
+  "#f58231", // Orange
+  "#911eb4", // Purple
+  "#42d4f4", // Cyan
+  "#f032e6", // Magenta
+  "#469990", // Teal
+  "#9A6324", // Brown
 ];
 
 export type UseCase = {
@@ -102,8 +181,38 @@ function rank(useCases: UseCase[]) {
 
 export default function AISpiderCharts({useCases, setUseCases,}: {useCases: UseCase[];setUseCases: React.Dispatch<React.SetStateAction<UseCase[]>>;ß}) {
   const [selected, setSelected] = useState<number>(0); // local UI-only state is fine
+  const [selectedDimension, setSelectedDimension] = useState<string | null>(null); // state for selected dimension
 
   const chartRef = useRef<HTMLDivElement>(null);
+
+  // Add use case
+  function addUseCase() {
+    if (useCases.length >= 10) return;
+    setUseCases((prev) => {
+      const next = [
+        ...prev,
+        {
+          id: prev.length,
+          name: `Use Case ${prev.length + 1}`,
+          description: "",
+          visible: true,
+          scores: emptyScores(),
+        },
+      ];
+      return next;
+    });
+    setSelected(useCases.length); // select new tab
+  }
+
+  // Remove use case
+  function removeUseCase() {
+    if (useCases.length <= 2) return;
+    setUseCases((prev) => {
+      const next = prev.slice(0, -1);
+      return next.map((u, i) => ({ ...u, id: i })); // reindex IDs
+    });
+    setSelected((s) => Math.min(s, useCases.length - 2)); // keep valid tab selected
+  }
 
   const comparisonData = useMemo(() => {
     // Build an array of objects keyed by criterion for the overlay chart
@@ -278,18 +387,48 @@ const legendPayload = useCases.map((u, i) => ({
             <Card className="order-2 lg:order-1">
               <CardHeader>
                 <CardTitle>Use Cases</CardTitle>
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={removeUseCase}
+                    disabled={useCases.length <= 2}
+                  >
+                    –
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={addUseCase}
+                    disabled={useCases.length >= 10}
+                  >
+                    +
+                  </Button>
+                </div>
               </CardHeader>
               <CardContent className="space-y-4">
                 <Tabs value={String(selected)} onValueChange={(v) => setSelected(Number(v))}>
                   <TabsList className="flex w-full flex-wrap justify-center gap-2 mb-10" style={{minHeight: "18rem" }}>
                     {useCases.map((u, i) => (
                           <TabsTrigger
-                          key={u.id}
-                          value={String(i)}
-                          className="whitespace-normal break-words text-center px-3 py-2 max-w-[10rem] data-[state=active]:bg-slate-900 data-[state=active]:text-white"
-                        >
-                        {u.name || `Use Case ${i + 1}`}
-                      </TabsTrigger>
+                            key={u.id}
+                            value={String(i)}
+                            className={`
+                              whitespace-normal break-words text-center px-3 py-2 max-w-[10rem]
+                              border-2 
+                              ${selected === i 
+                                ? "bg-opacity-20" 
+                                : "bg-transparent"}
+                            `}
+                            style={{
+                              color: COLORS[i % COLORS.length],                                // hard text color
+                              borderColor: selected === i ? COLORS[i % COLORS.length] : "transparent",
+                              backgroundColor: selected === i ? `${COLORS[i % COLORS.length]}33` : "transparent", 
+                              // ^ 33 = ~20% opacity hex for softer fill
+                            }}
+                          >
+                            {u.name || `Use Case ${i + 1}`}
+                          </TabsTrigger>
                     ))}
                   </TabsList>
                   {useCases.map((u, i) => (
@@ -325,7 +464,7 @@ const legendPayload = useCases.map((u, i) => ({
 
                       <Separator />
 
-                      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      {/* <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         {CRITERIA.map(({ key, label }) => (
                           <div key={key} className="rounded-2xl border p-3">
                             <div className="mb-2 flex items-center justify-between gap-3">
@@ -350,7 +489,80 @@ const legendPayload = useCases.map((u, i) => ({
                             />
                           </div>
                         ))}
-                      </div>
+                      </div> */}
+                      {["Impact", "Feasibility"].map((group) => (
+                        <div key={group} className="space-y-4">
+                          <h3
+                            className={`text-lg font-semibold`}
+                          >
+                            {group}
+                          </h3>
+                          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                          {CRITERIA.filter((c) => c.group === group).map(({ key, label, descriptions }) => {
+                            const isSelected = selectedDimension === key;
+
+                            return (
+                              <div
+                                key={key}
+                                onClick={() => setSelectedDimension(isSelected ? null : key)}
+                                className={`rounded-2xl border p-3 cursor-pointer transition-colors ${
+                                  group === "Impact"
+                                    ? "bg-amber-50 border-amber-700"
+                                    : "bg-sky-50 border-sky-700"
+                                }`}
+                              >
+                                <div className="mb-2 flex items-center justify-between gap-3">
+                                  <Label
+                                    htmlFor={`${key}-${i}`}
+                                    className="text-sm font-medium select-none"
+                                  >
+                                    {label}
+                                  </Label>
+                                  <Input
+                                    id={`${key}-${i}`}
+                                    type="number"
+                                    className="h-8 w-20"
+                                    min={1}
+                                    max={10}
+                                    value={u.scores[key]}
+                                    onChange={(e) => updateScore(i, key, Number(e.target.value))}
+                                    // prevent clicks on input from toggling description
+                                    onClick={(e) => e.stopPropagation()}
+                                  />
+                                </div>
+
+                                <input
+                                  type="range"
+                                  min={1}
+                                  max={10}
+                                  value={u.scores[key]}
+                                  onChange={(e) => updateScore(i, key, Number(e.target.value))}
+                                  onClick={(e) => e.stopPropagation()} // prevent slider clicks from toggling
+                                  className="w-full accent-indigo-600"
+                                />
+
+                                {/* Animated description panel */}
+                                <div
+                                  className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                                    isSelected ? "max-h-40 opacity-100 mt-2" : "max-h-0 opacity-0"
+                                  } text-xs text-slate-600 space-y-1`}
+                                >
+                                  <p>
+                                    <strong>0:</strong> {descriptions[0]}
+                                  </p>
+                                  <p>
+                                    <strong>5:</strong> {descriptions[5]}
+                                  </p>
+                                  <p>
+                                    <strong>10:</strong> {descriptions[10]}
+                                  </p>
+                                </div>
+                              </div>
+                            );
+                          })}
+                          </div>
+                        </div>
+                      ))}
                     </TabsContent>
                   ))}
                 </Tabs>
@@ -453,8 +665,8 @@ const legendPayload = useCases.map((u, i) => ({
                         <Radar
                           name={active?.name || `Use Case ${selected + 1}`}
                           dataKey="value"
-                          stroke="#2563eb"
-                          fill="#2563eb"
+                          stroke={COLORS[active?.id % COLORS.length]}   // hard color
+                          fill={COLORS[active?.id % COLORS.length]}     // same base
                           fillOpacity={0.25}
                         />
                         <RechartsTooltip />

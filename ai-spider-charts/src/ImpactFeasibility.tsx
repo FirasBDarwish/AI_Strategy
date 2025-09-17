@@ -165,31 +165,69 @@ export default function ImpactFeasibility({
                 ref={boardRef}
                 className="relative aspect-square w-full rounded-xl border border-slate-300 bg-white"
               >
+
+                {/* Quadrant coloring */}
+                <div className="absolute inset-0 grid grid-cols-2 grid-rows-2 rounded-xl overflow-hidden">
+                  {/* Top-left: High Impact, Low Feasibility */}
+                  <div className="bg-gradient-to-br from-amber-100/40 to-transparent" />
+                  {/* Top-right: High Impact, High Feasibility */}
+                  <div className="bg-gradient-to-bl from-emerald-100/40 to-transparent" />
+                  {/* Bottom-left: Low Impact, Low Feasibility */}
+                  <div className="bg-gradient-to-tr from-rose-100/40 to-transparent" />
+                  {/* Bottom-right: Low Impact, High Feasibility */}
+                  <div className="bg-gradient-to-tl from-sky-100/40 to-transparent" />
+                </div>
+
                 {/* Axes */}
                 <div className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-slate-400" />
                 <div className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-slate-400" />
 
                 {/* Axis labels */}
-                <div className="absolute left-1/2 -translate-x-1/2 top-2 text-[10px] tracking-widest text-slate-600">
-                  IMPACT
+                <div className="absolute left-1/2 -translate-x-1/2 top-2 text-sm sm:text-base font-bold tracking-wider text-slate-700">
+                  IMPACT ↑
                 </div>
-                <div className="absolute right-2 bottom-2 text-[10px] tracking-widest text-slate-600">
-                  FEASIBILITY
+                <div className="absolute right-2 bottom-2 text-sm sm:text-base font-bold tracking-wider text-slate-700">
+                  FEASIBILITY →
                 </div>
 
                 {/* Quadrant hints */}
-                <div className="absolute left-3 top-10 text-xs text-slate-500">
-                  High impact<br />Low feasibility
-                </div>
-                <div className="absolute right-3 top-10 text-xs text-slate-500 text-right">
-                  High impact<br />High feasibility
-                </div>
-                <div className="absolute left-3 bottom-10 text-xs text-slate-500">
-                  Low impact<br />Low feasibility
-                </div>
-                <div className="absolute right-3 bottom-10 text-xs text-slate-500 text-right">
-                  Low impact<br />High feasibility
-                </div>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div className="absolute left-3 top-10 text-xs text-slate-500 cursor-help">
+                        High impact<br />Low feasibility
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent>Likely transformational, but hard to implement</TooltipContent>
+                  </Tooltip>
+
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div className="absolute right-3 top-10 text-xs text-slate-500 text-right cursor-help">
+                        High impact<br />High feasibility
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent>Best candidates: high-value and achievable</TooltipContent>
+                  </Tooltip>
+
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div className="absolute left-3 bottom-10 text-xs text-slate-500 cursor-help">
+                        Low impact<br />Low feasibility
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent>Avoid: costly with little return</TooltipContent>
+                  </Tooltip>
+
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div className="absolute right-3 bottom-10 text-xs text-slate-500 text-right cursor-help">
+                        Low impact<br />High feasibility
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent>Easy wins, but limited payoff</TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
 
                 {/* Draggable tokens */}
                 {useCases.map((u) => {
@@ -208,11 +246,11 @@ export default function ImpactFeasibility({
                             }}
                           >
                         <span
-                          className="inline-block rounded-full px-3 py-1 text-sm sm:text-base font-semibold shadow-sm border-2"
+                          className="inline-block rounded-full px-3 py-1 text-sm sm:text-base font-semibold shadow-sm border-2 transition-transform hover:scale-110 hover:shadow-md"
                           style={{
-                            color: COLORS[u.id % COLORS.length], // hard text color
-                            borderColor: COLORS[u.id % COLORS.length], // border in hard color
-                            backgroundColor: `${COLORS[u.id % COLORS.length]}33`, // soft fill (~20%)
+                            color: COLORS[u.id % COLORS.length],
+                            borderColor: COLORS[u.id % COLORS.length],
+                            backgroundColor: `${COLORS[u.id % COLORS.length]}33`,
                           }}
                         >
                           {u.id + 1}
@@ -364,8 +402,7 @@ export default function ImpactFeasibility({
         <CardContent className="space-y-4">
           <p className="text-sm text-slate-600">
             The 3 Horizons framework is a common tool in strategic planning, where each horizon represents a
-            different stage of maturity in AI adoption. Use cases can be placed on this roadmap depending on what
-            you’ve learned so far.
+            different stage of maturity in AI adoption.
           </p>
           <ul className="list-disc pl-6 text-sm text-slate-700 space-y-1">
             <li><span className="font-medium">Horizon 1: Immediate Opportunities</span> — short-term, low-risk, mature tech and data available.</li>

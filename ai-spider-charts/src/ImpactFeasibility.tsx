@@ -207,7 +207,7 @@ export default function ImpactFeasibility({
                         High impact<br />High feasibility
                       </div>
                     </TooltipTrigger>
-                    <TooltipContent>Best candidates: high-value & achievable</TooltipContent>
+                    <TooltipContent>Best candidates: high-value and achievable</TooltipContent>
                   </Tooltip>
 
                   <Tooltip>

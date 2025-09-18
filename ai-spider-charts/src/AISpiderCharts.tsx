@@ -58,6 +58,26 @@ export const CRITERIA: {
     },
   },
   {
+    key: "increaseRevenue",
+    label: "Increase Revenue",
+    group: "Impact",
+    descriptions: {
+      0: "No measurable effect on revenue",
+      5: "Some revenue potential in limited areas",
+      10: "Strong potential to significantly increase revenue",
+    },
+  },
+  {
+    key: "strategicImpact",
+    label: "Strategic Impact",
+    group: "Impact",
+    descriptions: {
+      0: "No contribution to strategic objectives",
+      5: "Moderate alignment with some strategic priorities",
+      10: "High alignment with major strategic goals of the organization",
+    },
+  },
+  {
     key: "dataReady",
     label: "Data Ready",
     group: "Feasibility",
@@ -136,6 +156,8 @@ export type UseCase = {
     reducesCosts: number;
     benefitsPublic: number;
     noRisk: number;
+    increaseRevenue: number;
+    strategicImpact: number; 
   };
 };
 
@@ -148,6 +170,8 @@ const emptyScores = () => ({
   reducesCosts: 5,
   benefitsPublic: 5,
   noRisk: 5,
+  increaseRevenue: 5,
+  strategicImpact: 5, 
 });
 
 export const defaultUseCases: UseCase[] = new Array(8).fill(null).map((_, i) => ({

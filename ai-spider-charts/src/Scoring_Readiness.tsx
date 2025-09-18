@@ -416,6 +416,8 @@ export const demoUseCases: UseCase[] = [
       reducesCosts: 7,
       benefitsPublic: 9,
       noRisk: 7,
+      increaseRevenue: 2,
+      strategicImpact: 7, 
     },
   },
   {
@@ -432,6 +434,8 @@ export const demoUseCases: UseCase[] = [
       reducesCosts: 6,
       benefitsPublic: 9,
       noRisk: 6,
+      increaseRevenue: 9,
+      strategicImpact: 7, 
     },
   },
   {
@@ -448,6 +452,8 @@ export const demoUseCases: UseCase[] = [
       reducesCosts: 6,
       benefitsPublic: 8,
       noRisk: 5,
+      increaseRevenue: 2,
+      strategicImpact: 8, 
     },
   },
   {
@@ -464,6 +470,8 @@ export const demoUseCases: UseCase[] = [
       reducesCosts: 7,
       benefitsPublic: 9,
       noRisk: 7,
+      increaseRevenue: 2,
+      strategicImpact: 7, 
     },
   },
   {
@@ -480,6 +488,8 @@ export const demoUseCases: UseCase[] = [
       reducesCosts: 6,
       benefitsPublic: 8,
       noRisk: 7,
+      increaseRevenue: 6,
+      strategicImpact: 3, 
     },
   },
   {
@@ -496,6 +506,8 @@ export const demoUseCases: UseCase[] = [
       reducesCosts: 9,
       benefitsPublic: 6,
       noRisk: 7,
+      increaseRevenue: 1,
+      strategicImpact: 7, 
     },
   },
   {
@@ -512,6 +524,8 @@ export const demoUseCases: UseCase[] = [
       reducesCosts: 5,
       benefitsPublic: 9,
       noRisk: 4,
+      increaseRevenue: 8,
+      strategicImpact: 3, 
     },
   },
   {
@@ -528,6 +542,8 @@ export const demoUseCases: UseCase[] = [
       reducesCosts: 8,
       benefitsPublic: 6,
       noRisk: 6,
+      increaseRevenue: 9,
+      strategicImpact: 2, 
     },
   },
 ];

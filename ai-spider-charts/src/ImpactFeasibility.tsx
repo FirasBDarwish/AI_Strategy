@@ -399,24 +399,38 @@ export default function ImpactFeasibility({
         <CardHeader>
           <CardTitle>3 Horizons Roadmap</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="text-sm text-slate-600">
-            The 3 Horizons framework is a common tool in strategic planning, where each horizon represents a
-            different stage of maturity in AI adoption.
+        <CardContent>
+          <p className="text-sm text-slate-600 mb-4">
+            The 3 Horizons framework is a common tool in strategic planning, where each horizon
+            represents a different stage of maturity in AI adoption.
           </p>
-          <ul className="list-disc pl-6 text-sm text-slate-700 space-y-1">
-            <li><span className="font-medium">Horizon 1: Immediate Opportunities</span> — short-term, low-risk, mature tech and data available.</li>
-            <li><span className="font-medium">Horizon 2: Emerging Innovations</span> — medium-term; needs some investment in data, workflows, or change management.</li>
-            <li><span className="font-medium">Horizon 3: Transformative Possibilities</span> — longer-term; depends on less mature tech or substantial new data infrastructure and higher uncertainty/risk.</li>
+          <ul className="list-disc pl-6 text-sm text-slate-700 space-y-1 mb-6">
+            <li>Horizon 1: Immediate Opportunities — short-term, low-risk, mature tech and data available.</li>
+            <li>Horizon 2: Emerging Innovations — medium-term; needs some investment in data, workflows, or change management.</li>
+            <li>Horizon 3: Transformative Possibilities — longer-term; depends on less mature tech or substantial new data infrastructure and higher uncertainty/risk.</li>
           </ul>
 
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            <HorizonColumn title="Horizon 1 (High Feasibility)" items={horizonBuckets.H1} />
-            <HorizonColumn title="Horizon 2 (Medium Feasibility)" items={horizonBuckets.H2} />
-            <HorizonColumn title="Horizon 3 (Low Feasibility)" items={horizonBuckets.H3} />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <HorizonColumn
+              title="Horizon 1 (High Feasibility)"
+              items={horizonBuckets.H1}
+              horizon={1}
+            />
+            <HorizonColumn
+              title="Horizon 2 (Medium Feasibility)"
+              items={horizonBuckets.H2}
+              horizon={2}
+            />
+            <HorizonColumn
+              title="Horizon 3 (Low Feasibility)"
+              items={horizonBuckets.H3}
+              horizon={3}
+            />
           </div>
+
         </CardContent>
       </Card>
+
       {/* --- Project Save/Load --- */}
       <div className="flex justify-center mt-8 gap-3">
         <Button onClick={() => onExportAll?.()}>
@@ -439,14 +453,41 @@ export default function ImpactFeasibility({
   );
 }
 
-function HorizonColumn({ title, items }: { title: string; items: UseCase[] }) {
-    return (
-      <div className="rounded-xl border p-4 space-y-3">
-        <div className="text-sm font-semibold">{title}</div>
-        {items.length === 0 && <div className="text-sm text-slate-500">No items yet.</div>}
-        <div className="flex flex-wrap gap-2">
-          {items.map((u) => (
-            <span
+function HorizonColumn({
+  title,
+  items,
+  horizon,
+}: {
+  title: string;
+  items: UseCase[];
+  horizon: 1 | 2 | 3;
+}) {
+  // horizon-specific colors
+  const styles =
+    horizon === 1
+      ? {
+          bg: "bg-emerald-50 border-emerald-200",
+          title: "text-emerald-700",
+        }
+      : horizon === 2
+      ? {
+          bg: "bg-amber-50 border-amber-200",
+          title: "text-amber-700",
+        }
+      : {
+          bg: "bg-rose-50 border-rose-200",
+          title: "text-rose-700",
+        };
+
+  return (
+    <div className={`rounded-xl border p-4 space-y-3 ${styles.bg}`}>
+      <div className={`text-sm font-semibold ${styles.title}`}>{title}</div>
+      {items.length === 0 && (
+        <div className="text-sm text-slate-500">No items yet.</div>
+      )}
+      <div className="flex flex-wrap gap-2">
+        {items.map((u) => (
+          <span
             key={u.id}
             className="inline-block rounded-md px-2 py-1 text-sm font-semibold border-2"
             style={{
@@ -457,9 +498,11 @@ function HorizonColumn({ title, items }: { title: string; items: UseCase[] }) {
           >
             {u.id + 1}. {u.name || `Use Case ${u.id + 1}`}
           </span>
-          ))}
-        </div>
+        ))}
       </div>
-    );
-  }
+    </div>
+  );
+}
+
+
   

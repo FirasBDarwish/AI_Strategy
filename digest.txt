@@ -1,0 +1,3136 @@
+Directory structure:
+└── AI_Strategy/
+    ├── README.md
+    ├── ai-spider-charts/
+    │   ├── README.md
+    │   ├── components.json
+    │   ├── eslint.config.js
+    │   ├── index.html
+    │   ├── package.json
+    │   ├── postcss.config.cjs
+    │   ├── tailwind.config.cjs
+    │   ├── tsconfig.app.json
+    │   ├── tsconfig.json
+    │   ├── tsconfig.node.json
+    │   ├── vite.config.ts
+    │   └── src/
+    │       ├── AISpiderCharts.tsx
+    │       ├── App.css
+    │       ├── App.tsx
+    │       ├── ImpactFeasibility.tsx
+    │       ├── index.css
+    │       ├── main.tsx
+    │       ├── Scoring_Readiness.tsx
+    │       ├── vite-env.d.ts
+    │       ├── components/
+    │       │   └── ui/
+    │       │       ├── alert.tsx
+    │       │       ├── button.tsx
+    │       │       ├── card.tsx
+    │       │       ├── input.tsx
+    │       │       ├── label.tsx
+    │       │       ├── separator.tsx
+    │       │       ├── tabs.tsx
+    │       │       ├── textarea.tsx
+    │       │       └── tooltip.tsx
+    │       └── lib/
+    │           └── utils.ts
+    └── .github/
+        └── workflows/
+            └── deploy.yml
+
+================================================
+FILE: README.md
+================================================
+[Empty file]
+
+
+================================================
+FILE: ai-spider-charts/README.md
+================================================
+# React + TypeScript + Vite
+
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+
+Currently, two official plugins are available:
+
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+
+```js
+export default tseslint.config([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+
+      // Remove tseslint.configs.recommended and replace with this
+      ...tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      ...tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      ...tseslint.configs.stylisticTypeChecked,
+
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
+
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default tseslint.config([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
+
+
+
+================================================
+FILE: ai-spider-charts/components.json
+================================================
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "new-york",
+  "rsc": false,
+  "tsx": true,
+  "tailwind": {
+    "config": "tailwind.config.js",
+    "css": "src/index.css",
+    "baseColor": "neutral",
+    "cssVariables": true,
+    "prefix": ""
+  },
+  "iconLibrary": "lucide",
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib/utils",
+    "ui": "@/components/ui",
+    "lib": "@/lib",
+    "hooks": "@/hooks"
+  }
+}
+
+
+
+================================================
+FILE: ai-spider-charts/eslint.config.js
+================================================
+import js from '@eslint/js'
+import globals from 'globals'
+import reactHooks from 'eslint-plugin-react-hooks'
+import reactRefresh from 'eslint-plugin-react-refresh'
+import tseslint from 'typescript-eslint'
+import { globalIgnores } from 'eslint/config'
+
+export default tseslint.config([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      js.configs.recommended,
+      tseslint.configs.recommended,
+      reactHooks.configs['recommended-latest'],
+      reactRefresh.configs.vite,
+    ],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: globals.browser,
+    },
+  },
+])
+
+
+
+================================================
+FILE: ai-spider-charts/index.html
+================================================
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/uae_flag.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Strategic Roadmap</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
+
+
+================================================
+FILE: ai-spider-charts/package.json
+================================================
+{
+  "name": "ai-spider-charts",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "tailwind:init": "tailwindcss init -p",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@radix-ui/react-label": "^2.1.7",
+    "@radix-ui/react-separator": "^1.1.7",
+    "@radix-ui/react-slot": "^1.2.3",
+    "@radix-ui/react-tabs": "^1.1.13",
+    "@radix-ui/react-tooltip": "^1.2.8",
+    "@tailwindcss/vite": "^4.1.12",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "html2canvas": "^1.4.1",
+    "html2pdf.js": "^0.12.0",
+    "jspdf": "^3.0.2",
+    "lucide-react": "^0.542.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "recharts": "^3.1.2",
+    "tailwind-merge": "^3.3.1",
+    "tailwindcss-animate": "^1.0.7",
+    "tw-animate-css": "^1.3.8"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.33.0",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "@vitejs/plugin-react": "^5.0.0",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^9.33.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.3.0",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.13",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "^8.39.1",
+    "vite": "^7.1.2"
+  }
+}
+
+
+
+================================================
+FILE: ai-spider-charts/postcss.config.cjs
+================================================
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+};
+
+
+
+================================================
+FILE: ai-spider-charts/tailwind.config.cjs
+================================================
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  darkMode: ["class"],
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
+    },
+  },
+  plugins: [require("tailwindcss-animate")],
+}
+
+
+
+================================================
+FILE: ai-spider-charts/tsconfig.app.json
+================================================
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true
+  },
+  "include": ["src"]
+}
+
+
+
+================================================
+FILE: ai-spider-charts/tsconfig.json
+================================================
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    // 👇 Alias fix for shadcn/ui
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}
+
+
+
+================================================
+FILE: ai-spider-charts/tsconfig.node.json
+================================================
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
+    "target": "ES2023",
+    "lib": ["ES2023"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true
+  },
+  "include": ["vite.config.ts"]
+}
+
+
+
+================================================
+FILE: ai-spider-charts/vite.config.ts
+================================================
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import path from 'path'
+
+export default defineConfig({
+  plugins: [react()],
+  base: '/AI_Strategy/', // 👈 important for GitHub Pages (repo name)
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'), // 👈 match your tsconfig.json
+    },
+  },
+})
+
+
+
+================================================
+FILE: ai-spider-charts/src/AISpiderCharts.tsx
+================================================
+import React, { useMemo, useRef, useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Separator } from "@/components/ui/separator";
+import { Download, RefreshCw, Eye, EyeOff, BarChart2 } from "lucide-react";
+import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Tooltip as RechartsTooltip, Legend } from "recharts";
+import html2canvas from "html2canvas";
+
+/**
+ * AI Use Case Spider Chart Generator
+ * - Fill 8 use cases (name, description, and 8 criteria scored 1-10)
+ * - Toggle visibility per use case on the overlay radar chart
+ * - See per-use-case spider chart & a comparison overlay
+ * - Export PNG of the comparison chart; export/import JSON
+ */
+
+export const CRITERIA: {
+  key: keyof UseCase["scores"];
+  label: string;
+  group: "Impact" | "Feasibility";
+  descriptions: { 0: string; 5: string; 10: string };
+}[] = [
+  {
+    key: "increasesProductivity",
+    label: "Increases Productivity",
+    group: "Impact",
+    descriptions: {
+      0: "Use case offers no measurable productivity improvement",
+      5: "Moderate improvement in productivity",
+      10: "Use case could offer significant productivity boost across organization",
+    },
+  },
+  {
+    key: "reducesCosts",
+    label: "Reduces Costs",
+    group: "Impact",
+    descriptions: {
+      0: "Use case offers no cost savings",
+      5: "Moderate savings in some processes",
+      10: "Use case offers major cost reductions across operations",
+    },
+  },
+  {
+    key: "benefitsPublic",
+    label: "Benefits Public",
+    group: "Impact",
+    descriptions: {
+      0: "Use case offers no public benefit",
+      5: "Some benefit for limited groups",
+      10: "Use case offers wide-reaching public benefit",
+    },
+  },
+  {
+    key: "increaseRevenue",
+    label: "Increase Revenue",
+    group: "Impact",
+    descriptions: {
+      0: "No measurable effect on revenue",
+      5: "Some revenue potential in limited areas",
+      10: "Strong potential to significantly increase revenue",
+    },
+  },
+  {
+    key: "strategicImpact",
+    label: "Strategic Impact",
+    group: "Impact",
+    descriptions: {
+      0: "No contribution to strategic objectives",
+      5: "Moderate alignment with some strategic priorities",
+      10: "High alignment with major strategic goals of the organization",
+    },
+  },
+  {
+    key: "dataReady",
+    label: "Data Ready",
+    group: "Feasibility",
+    descriptions: {
+      0: "Use case does not require much clean, structured, ready-to-use data",
+      5: "Partial / incomplete data requirements",
+      10: "Use case requires high-quality, ready-to-use data",
+    },
+  },
+  {
+    key: "techMature",
+    label: "Technology Mature",
+    group: "Feasibility",
+    descriptions: {
+      0: "Use case needs technology that is immature or still experimental and not ready to use",
+      5: "Use case requires technology that is semi-reliable but requires adaptation",
+      10: "Use case requires technology that is fully mature and reliable",
+    },
+  },
+  {
+    key: "lowImplementationCost",
+    label: "Resource-Efficient",
+    group: "Feasibility",
+    descriptions: {
+      0: "Extremely costly to implement use case",
+      5: "Moderate resources required",
+      10: "Very low implementation cost of use case",
+    },
+  },
+  {
+    key: "reusable",
+    label: "Reusable",
+    group: "Feasibility",
+    descriptions: {
+      0: "Use case is not reusable",
+      5: "Use case is reusable with modifications",
+      10: "Use case is highly reusable across multiple contexts",
+    },
+  },
+  {
+    key: "noRisk",
+    label: "No Risk",
+    group: "Feasibility",
+    descriptions: {
+      0: "High risks (legal, ethical, reputational) associated with developing and deploying use case",
+      5: "Some risks associated with developing and deploying use case but are overall manageable",
+      10: "Minimal or no risks associated with developing and deploying use case",
+    },
+  },
+];
+
+const COLORS = [
+  "#e6194B", // Red
+  "#3cb44b", // Green
+  "#808000", // Olive
+  "#4363d8", // Blue
+  "#f58231", // Orange
+  "#911eb4", // Purple
+  "#42d4f4", // Cyan
+  "#f032e6", // Magenta
+  "#469990", // Teal
+  "#9A6324", // Brown
+];
+
+export type UseCase = {
+  id: number;
+  name: string;
+  description: string;
+  visible: boolean;
+  scores: {
+    dataReady: number;
+    techMature: number;
+    lowImplementationCost: number;
+    reusable: number;
+    increasesProductivity: number;
+    reducesCosts: number;
+    benefitsPublic: number;
+    noRisk: number;
+    increaseRevenue: number;
+    strategicImpact: number; 
+  };
+};
+
+const emptyScores = () => ({
+  dataReady: 5,
+  techMature: 5,
+  lowImplementationCost: 5,
+  reusable: 5,
+  increasesProductivity: 5,
+  reducesCosts: 5,
+  benefitsPublic: 5,
+  noRisk: 5,
+  increaseRevenue: 5,
+  strategicImpact: 5, 
+});
+
+export const defaultUseCases: UseCase[] = new Array(8).fill(null).map((_, i) => ({
+  id: i,
+  name: `Use Case ${i + 1}`,
+  description: "",
+  visible: true,
+  scores: emptyScores(),
+}));
+
+function clamp01to10(n: number) {
+  if (Number.isNaN(n)) return 0;
+  return Math.max(1, Math.min(10, Math.round(n)));
+}
+
+function toRadarData(useCase: UseCase) {
+  return CRITERIA.map((c) => ({ criterion: c.label, value: useCase.scores[c.key] }));
+}
+
+function averageScore(u: UseCase) {
+  const vals = Object.values(u.scores);
+  return Math.round(vals.reduce((a, b) => a + b, 0) / vals.length);
+}
+
+function rank(useCases: UseCase[]) {
+  return [...useCases]
+    .map((u) => ({ ...u, avg: averageScore(u) }))
+    .sort((a, b) => b.avg - a.avg)
+    .map((u, idx) => ({ rank: idx + 1, name: u.name || `Use Case ${u.id + 1}` , avg: u.avg }));
+}
+
+export default function AISpiderCharts({useCases, setUseCases,}: {useCases: UseCase[];setUseCases: React.Dispatch<React.SetStateAction<UseCase[]>>;ß}) {
+  const [selected, setSelected] = useState<number>(0); // local UI-only state is fine
+  const [selectedDimension, setSelectedDimension] = useState<string | null>(null); // state for selected dimension
+
+  const chartRef = useRef<HTMLDivElement>(null);
+
+  // Add use case
+  function addUseCase() {
+    if (useCases.length >= 10) return;
+    setUseCases((prev) => {
+      const next = [
+        ...prev,
+        {
+          id: prev.length,
+          name: `Use Case ${prev.length + 1}`,
+          description: "",
+          visible: true,
+          scores: emptyScores(),
+        },
+      ];
+      return next;
+    });
+    setSelected(useCases.length); // select new tab
+  }
+
+  // Remove use case
+  function removeUseCase() {
+    if (useCases.length <= 2) return;
+    setUseCases((prev) => {
+      const next = prev.slice(0, -1);
+      return next.map((u, i) => ({ ...u, id: i })); // reindex IDs
+    });
+    setSelected((s) => Math.min(s, useCases.length - 2)); // keep valid tab selected
+  }
+
+  const comparisonData = useMemo(() => {
+    // Build an array of objects keyed by criterion for the overlay chart
+    return CRITERIA.map(({ label, key }) => {
+      const row: any = { criterion: label };
+      useCases.forEach((u) => {
+        row[u.name || `Use Case ${u.id + 1}`] = u.scores[key];
+      });
+      return row;
+    });
+  }, [useCases]);
+
+  const ranks = useMemo(() => rank(useCases), [useCases]);
+
+  function updateScore(idx: number, key: keyof UseCase["scores"], value: number) {
+    setUseCases((prev) => {
+      const next = [...prev];
+      next[idx] = {
+        ...next[idx],
+        scores: { ...next[idx].scores, [key]: clamp01to10(value) },
+      };
+      return next;
+    });
+  }
+
+  function updateMeta(idx: number, field: "name" | "description", value: string) {
+    setUseCases((prev) => {
+      const next = [...prev];
+      next[idx] = { ...next[idx], [field]: value } as UseCase;
+      return next;
+    });
+  }
+
+  function toggleVisible(idx: number) {
+    setUseCases((prev) => {
+      const next = [...prev];
+      next[idx] = { ...next[idx], visible: !next[idx].visible };
+      return next;
+    });
+  }
+
+  async function downloadPNG() {
+    if (!chartRef.current) return;
+    const canvas = await html2canvas(chartRef.current, {
+      scale: 3, // 🔥 super sharp
+      backgroundColor: "#ffffff",
+    });
+    const url = canvas.toDataURL("image/png");
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "ai-use-cases-spider-chart.png";
+    a.click();
+  }
+
+  function exportJSON() {
+    const data = JSON.stringify(useCases, null, 2);
+    const blob = new Blob([data], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "ai-use-cases.json";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function importJSON(evt: React.ChangeEvent<HTMLInputElement>) {
+    const file = evt.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const parsed = JSON.parse(String(reader.result));
+        if (Array.isArray(parsed) && parsed.length === 8) {
+          // Basic shape guard
+          setUseCases(parsed.map((u, i) => ({
+            id: i,
+            name: u.name ?? `Use Case ${i + 1}`,
+            description: u.description ?? "",
+            visible: typeof u.visible === "boolean" ? u.visible : true,
+            scores: { ...emptyScores(), ...(u.scores ?? {}) },
+          })));
+        } else {
+          alert("Expected an array of 8 use cases in the file.");
+        }
+      } catch (e) {
+        alert("Could not parse JSON file.");
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  function randomize() {
+    setUseCases((prev) => prev.map((u) => ({
+      ...u,
+      scores: Object.fromEntries(Object.keys(u.scores).map((k) => [k, Math.floor(20 + Math.random()*80)])) as UseCase["scores"],
+    })));
+  }
+
+  async function downloadDetailPNG(useCase: UseCase, rank: number) {
+    if (!detailRef.current) return;
+  
+    // Hide all buttons with class "no-print" before capture
+    const hiddenEls = Array.from(
+      detailRef.current.querySelectorAll(".no-print")
+    ) as HTMLElement[];
+  
+    hiddenEls.forEach((el) => (el.style.display = "none"));
+  
+    const canvas = await html2canvas(detailRef.current, {
+      scale: 3, // 🔥 super sharp
+      backgroundColor: "#ffffff",
+    });
+  
+    // Restore button visibility
+    hiddenEls.forEach((el) => (el.style.display = ""));
+  
+    const url = canvas.toDataURL("image/png", 1.0);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${useCase.name || `Use Case ${useCase.id + 1}`} (Rank ${rank}).png`;
+    a.click();
+  }
+  
+  const renderLegend = ({ payload }) => (
+    <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 mt-4">
+      {payload.map((entry, index) => (
+        <div
+          key={`item-${index}`}
+          className="flex items-center gap-2 max-w-[250px]"
+        >
+          <span
+            className="block h-3 w-3 rounded-sm shrink-0"
+            style={{ backgroundColor: entry.color }}
+          />
+          <span className="text-sm break-words">{entry.value}</span>
+        </div>
+      ))}
+    </div>
+  );
+  
+// Create a new payload based on your useCases data
+const legendPayload = useCases.map((u, i) => ({
+  value: u.name || `Use Case ${u.id + 1}`,
+  color: COLORS[i % COLORS.length],
+  // You might need other properties like 'id' and 'type' for advanced customization
+}));
+
+  const active = useCases[selected];
+  const detailRef = useRef<HTMLDivElement>(null);
+
+  return (
+    <TooltipProvider>
+      <div className="space-y-6">
+        <div className="mx-auto max-w-7xl space-y-6">
+          <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h1 className="text-3xl font-bold tracking-tight">Step 2: AI Use Case Ideation and Evaluation</h1>
+              <p className="text-slate-600">Enter and describe up to eight use cases, rate them on eight criteria (1-10), and visualize the results as spider charts.</p>
+            </div>
+          </header>
+
+          <Alert>
+            <AlertTitle>Scoring Guide</AlertTitle>
+            <AlertDescription>
+              Each criterion must be scored between <strong>1</strong> and <strong>10</strong>. Higher is better. For example, a higher
+              score in <em>Low Implementation Cost</em> means the use case is cheaper to build.
+            </AlertDescription>
+          </Alert>
+
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            {/* Left: Data Entry */}
+            <Card className="order-2 lg:order-1">
+              <CardHeader>
+                <CardTitle>Use Cases</CardTitle>
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={removeUseCase}
+                    disabled={useCases.length <= 2}
+                  >
+                    –
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={addUseCase}
+                    disabled={useCases.length >= 10}
+                  >
+                    +
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Tabs value={String(selected)} onValueChange={(v) => setSelected(Number(v))}>
+                  <TabsList className="flex w-full flex-wrap justify-center gap-2 mb-10" style={{minHeight: "18rem" }}>
+                    {useCases.map((u, i) => (
+                          <TabsTrigger
+                            key={u.id}
+                            value={String(i)}
+                            className={`
+                              whitespace-normal break-words text-center px-3 py-2 max-w-[10rem]
+                              border-2 
+                              ${selected === i 
+                                ? "bg-opacity-20" 
+                                : "bg-transparent"}
+                            `}
+                            style={{
+                              color: COLORS[i % COLORS.length],                                // hard text color
+                              borderColor: selected === i ? COLORS[i % COLORS.length] : "transparent",
+                              backgroundColor: selected === i ? `${COLORS[i % COLORS.length]}33` : "transparent", 
+                              // ^ 33 = ~20% opacity hex for softer fill
+                            }}
+                          >
+                            {u.name || `Use Case ${i + 1}`}
+                          </TabsTrigger>
+                    ))}
+                  </TabsList>
+                  {useCases.map((u, i) => (
+                    <TabsContent key={u.id} value={String(i)} className="space-y-4">
+                      <div className="grid grid-cols-1 gap-y-6 gap-x-4 md:grid-cols-2 md:items-start">
+                        <div className="space-y-2">
+                          <Label htmlFor={`name-${i}`}>Name</Label>
+                          <Input
+                            id={`name-${i}`}
+                            value={u.name}
+                            onChange={(e) => updateMeta(i, "name", e.target.value)}
+                            placeholder={`Use Case ${i + 1}`}
+                            maxLength={30}
+                          />
+                        </div>
+                        <div className="flex flex-col space-y-2">
+                          <Label className="text-sm font-medium">Visible in Comparison</Label>
+                          <Button
+                            type="button"
+                            variant={u.visible ? "secondary" : "outline"}
+                            onClick={() => toggleVisible(i)}
+                            className="w-full"
+                          >
+                            {u.visible ? <Eye className="mr-2 h-4 w-4" /> : <EyeOff className="mr-2 h-4 w-4" />}
+                            {u.visible ? "Shown" : "Hidden"}
+                          </Button>
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor={`desc-${i}`}>Short Description (2–3 sentences)</Label>
+                        <Textarea id={`desc-${i}`} value={u.description} onChange={(e) => updateMeta(i, "description", e.target.value)} rows={3} />
+                      </div>
+
+                      <Separator />
+
+                      {/* <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        {CRITERIA.map(({ key, label }) => (
+                          <div key={key} className="rounded-2xl border p-3">
+                            <div className="mb-2 flex items-center justify-between gap-3">
+                              <Label htmlFor={`${key}-${i}`} className="text-sm font-medium">{label}</Label>
+                              <Input
+                                id={`${key}-${i}`}
+                                type="number"
+                                className="h-8 w-20"
+                                min={1}
+                                max={10}
+                                value={u.scores[key]}
+                                onChange={(e) => updateScore(i, key, Number(e.target.value))}
+                              />
+                            </div>
+                            <input
+                              type="range"
+                              min={1}
+                              max={10}
+                              value={u.scores[key]}
+                              onChange={(e) => updateScore(i, key, Number(e.target.value))}
+                              className="w-full"
+                            />
+                          </div>
+                        ))}
+                      </div> */}
+                      {["Impact", "Feasibility"].map((group) => (
+                        <div key={group} className="space-y-4">
+                          <h3
+                            className={`text-lg font-semibold`}
+                          >
+                            {group}
+                          </h3>
+                          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                          {CRITERIA.filter((c) => c.group === group).map(({ key, label, descriptions }) => {
+                            const isSelected = selectedDimension === key;
+
+                            return (
+                              <div
+                                key={key}
+                                onClick={() => setSelectedDimension(isSelected ? null : key)}
+                                className={`rounded-2xl border p-3 cursor-pointer transition-colors ${
+                                  group === "Impact"
+                                    ? "bg-amber-50 border-amber-700"
+                                    : "bg-sky-50 border-sky-700"
+                                }`}
+                              >
+                                <div className="mb-2 flex items-center justify-between gap-3">
+                                  <Label
+                                    htmlFor={`${key}-${i}`}
+                                    className="text-sm font-medium select-none"
+                                  >
+                                    {label}
+                                  </Label>
+                                  <Input
+                                    id={`${key}-${i}`}
+                                    type="number"
+                                    className="h-8 w-20"
+                                    min={1}
+                                    max={10}
+                                    value={u.scores[key]}
+                                    onChange={(e) => updateScore(i, key, Number(e.target.value))}
+                                    // prevent clicks on input from toggling description
+                                    onClick={(e) => e.stopPropagation()}
+                                  />
+                                </div>
+
+                                <input
+                                  type="range"
+                                  min={1}
+                                  max={10}
+                                  value={u.scores[key]}
+                                  onChange={(e) => updateScore(i, key, Number(e.target.value))}
+                                  onClick={(e) => e.stopPropagation()} // prevent slider clicks from toggling
+                                  className="w-full accent-indigo-600"
+                                />
+
+                                {/* Animated description panel */}
+                                <div
+                                  className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                                    isSelected ? "max-h-40 opacity-100 mt-2" : "max-h-0 opacity-0"
+                                  } text-xs text-slate-600 space-y-1`}
+                                >
+                                  <p>
+                                    <strong>0:</strong> {descriptions[0]}
+                                  </p>
+                                  <p>
+                                    <strong>5:</strong> {descriptions[5]}
+                                  </p>
+                                  <p>
+                                    <strong>10:</strong> {descriptions[10]}
+                                  </p>
+                                </div>
+                              </div>
+                            );
+                          })}
+                          </div>
+                        </div>
+                      ))}
+                    </TabsContent>
+                  ))}
+                </Tabs>
+              </CardContent>
+            </Card>
+
+            {/* Right: Visualizations */}
+            <div className="order-1 space-y-6 lg:order-2">
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <div>
+                    <CardTitle>Comparison Spider Chart</CardTitle>
+                    <p className="text-sm text-slate-600">Toggle visibility per use case to declutter the view. Download PNG for slides.</p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Button variant="outline" onClick={downloadPNG}><Download className="mr-2 h-4 w-4"/> PNG</Button>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div ref={chartRef} className="h-600px] w-full min-h-700">
+                    <ResponsiveContainer width="100%" height={400}>
+                      <RadarChart data={comparisonData} outerRadius={160}>
+                        <PolarGrid />
+                        <PolarAngleAxis dataKey="criterion" />
+                        <PolarRadiusAxis domain={[0, 10]} tickCount={6} />
+                        {useCases.map(
+                          (u, i) =>
+                            u.visible && (
+                              <Radar
+                                key={u.id}
+                                name={u.name || `Use Case ${i + 1}`}
+                                dataKey={u.name || `Use Case ${i + 1}`}
+                                stroke={COLORS[i % COLORS.length]}
+                                fill={COLORS[i % COLORS.length]}
+                                fillOpacity={0.2}
+                              />
+                            )
+                        )}
+                        <RechartsTooltip />
+                      </RadarChart>
+                    </ResponsiveContainer>
+
+                    {/* Custom legend in DOM flow with flex-wrap for better wrapping */}
+                    <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 mt-4">
+                      {useCases.map((u, i) =>
+                        u.visible && (
+                          <div
+                            key={u.id}
+                            className="flex items-center gap-2 max-w-[250px]"
+                          >
+                            <span
+                              className="block h-3 w-3 rounded-sm shrink-0"
+                              style={{ backgroundColor: COLORS[i % COLORS.length] }}
+                            />
+                            <span className="text-sm break-words">{u.name || `Use Case ${u.id + 1}`}</span>
+                          </div>
+                        )
+                      )}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <CardTitle>
+                    <span className="inline-flex items-center gap-2">
+                      <BarChart2 className="h-5 w-5" />
+                      {active?.name || `Use Case ${selected + 1}`} — Detail
+                    </span>
+                  </CardTitle>
+                  {/* Download button OUTSIDE the ref area */}
+                  {active && (
+                    <Button
+                    variant="outline"
+                    onClick={() => {
+                      const r = ranks.find(r => r.name === active.name);
+                      downloadDetailPNG(active, r?.rank ?? 0);
+                    }}
+                    className="no-print"
+                  >
+                      <Download className="mr-2 h-4 w-4" /> PNG
+                    </Button>
+                  )}
+                </CardHeader>
+
+                {/* ✅ Only this part is inside detailRef */}
+                <CardContent ref={detailRef}>
+                  <div className="mb-4 text-slate-700">
+                    {active?.description || (
+                      <span className="italic text-slate-400">No description yet.</span>
+                    )}
+                  </div>
+                  <div className="h-[360px] w-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <RadarChart data={toRadarData(active)} outerRadius={130}>
+                        <PolarGrid />
+                        <PolarAngleAxis dataKey="criterion" />
+                        <PolarRadiusAxis domain={[0, 10]} tickCount={6} />
+                        <Radar
+                          name={active?.name || `Use Case ${selected + 1}`}
+                          dataKey="value"
+                          stroke={COLORS[active?.id % COLORS.length]}   // hard color
+                          fill={COLORS[active?.id % COLORS.length]}     // same base
+                          fillOpacity={0.25}
+                        />
+                        <RechartsTooltip />
+                      </RadarChart>
+                    </ResponsiveContainer>
+                  </div>
+                  {active && (
+                    <p className="mt-4 text-sm text-slate-600">
+                      Ranking:{" "}
+                      <strong>
+                        #{ranks.find(r => r.name === active.name)?.rank ?? "?"}
+                      </strong>{" "}
+                      (Avg score:{" "}
+                      {ranks.find(r => r.name === active.name)?.avg ?? "?"})
+                    </p>
+                  )}
+                </CardContent>
+              </Card>
+
+
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Ranking (by average score)</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full text-left text-sm">
+                      <thead>
+                        <tr className="border-b text-slate-600">
+                          <th className="py-2 pr-4">#</th>
+                          <th className="py-2 pr-4">Use Case</th>
+                          <th className="py-2">Avg</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {ranks.map((r, idx) => (
+                          <tr key={idx} className="border-b last:border-0">
+                            <td className="py-2 pr-4 font-mono">{r.rank}</td>
+                            <td className="py-2 pr-4">{r.name}</td>
+                            <td className="py-2">{r.avg}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </TooltipProvider>
+  );
+}
+
+
+
+================================================
+FILE: ai-spider-charts/src/App.css
+================================================
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+
+
+================================================
+FILE: ai-spider-charts/src/App.tsx
+================================================
+import AIReadinessAndScoring from "./Scoring_Readiness";
+
+function App() {
+  return <AIReadinessAndScoring />;
+}
+
+export default App;
+
+
+
+================================================
+FILE: ai-spider-charts/src/ImpactFeasibility.tsx
+================================================
+import * as React from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { UseCase, CRITERIA } from "./AISpiderCharts";
+import { READINESS, ReadinessScores } from "./Scoring_Readiness";
+import { Download, Upload } from "lucide-react";
+
+type Placements = Record<number, { x: number; y: number }> & { __activeId?: number }; // x: feasibility (0..1), y: impact (0..1)
+
+const COLORS = [
+  "#e6194B", // Red
+  "#3cb44b", // Green
+  "#808000", // Olive
+  "#4363d8", // Blue
+  "#f58231", // Orange
+  "#911eb4", // Purple
+  "#42d4f4", // Cyan
+  "#f032e6", // Magenta
+  "#469990", // Teal
+  "#9A6324", // Brown
+];
+
+function clamp01(n: number) {
+  return Math.max(0, Math.min(1, n));
+}
+
+function useDragPlace(boardRef: React.RefObject<HTMLDivElement>, onPos: (x: number, y: number) => void) {
+  const dragging = React.useRef(false);
+
+  React.useEffect(() => {
+    const onMove = (e: MouseEvent | TouchEvent) => {
+      if (!dragging.current || !boardRef.current) return;
+      const rect = boardRef.current.getBoundingClientRect();
+      const clientX = "touches" in e ? e.touches[0].clientX : (e as MouseEvent).clientX;
+      const clientY = "touches" in e ? e.touches[0].clientY : (e as MouseEvent).clientY;
+      const x = clamp01((clientX - rect.left) / rect.width);
+      const y = clamp01(1 - (clientY - rect.top) / rect.height); // invert so up = higher impact
+      onPos(x, y);
+    };
+    const stop = () => (dragging.current = false);
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("touchmove", onMove, { passive: false });
+    window.addEventListener("mouseup", stop);
+    window.addEventListener("touchend", stop);
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("touchmove", onMove);
+      window.removeEventListener("mouseup", stop);
+      window.removeEventListener("touchend", stop);
+    };
+  }, [boardRef, onPos]);
+
+  return {
+    start: () => (dragging.current = true),
+  };
+}
+
+export default function ImpactFeasibility({
+  useCases,
+  placements,
+  setPlacements,
+  onDownloadPDF,
+  onExportAll,
+  onImportAll,
+  readinessScores,
+}: {
+  useCases: UseCase[];
+  placements: Placements;
+  setPlacements: React.Dispatch<React.SetStateAction<Placements>>;
+  onDownloadPDF?: () => void;
+  onExportAll?: () => void;
+  onImportAll?: (data: any) => void;
+  readinessScores: ReadinessScores;
+}) {
+  const boardRef = React.useRef<HTMLDivElement>(null);
+  const [selectedDetail, setSelectedDetail] = React.useState<UseCase | null>(null);
+
+  const { start } = useDragPlace(boardRef, (x, y) => {
+    setPlacements((prev) => {
+      if (!prev.__activeId && prev.__activeId !== 0) return prev as any;
+      return { ...prev, [prev.__activeId!]: { x, y } } as any;
+    });
+  });
+
+  const beginDrag = (id: number) =>
+    setPlacements((p: any) => ({ ...p, __activeId: id }));
+
+  // Default any missing placement to center
+  const getPos = (id: number) => placements[id] ?? { x: 0.5, y: 0.5 };
+
+  // --- 3 Horizons split (only high-impact items) ---
+  const horizonBuckets = React.useMemo(() => {
+    const hi = useCases
+      .filter((u) => (placements[u.id]?.y ?? 0.5) >= 0.5) // high impact
+      .map((u) => ({ u, p: getPos(u.id) }));
+
+    const H1 = hi.filter(({ p }) => p.x >= 2 / 3).map(({ u }) => u); // high feasibility
+    const H2 = hi.filter(({ p }) => p.x >= 1 / 3 && p.x < 2 / 3).map(({ u }) => u);
+    const H3 = hi.filter(({ p }) => p.x < 1 / 3).map(({ u }) => u);
+
+    return { H1, H2, H3 };
+  }, [useCases, placements]);
+
+  function handleImportJSON(evt: React.ChangeEvent<HTMLInputElement>) {
+    const file = evt.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const parsed = JSON.parse(String(reader.result));
+        onImportAll?.(parsed);
+      } catch (e) {
+        alert("Could not parse project JSON.");
+      }
+    };
+    reader.readAsText(file);
+    // reset the input so the same file can be re-imported if needed
+    evt.currentTarget.value = "";
+  }
+
+  return (
+    <div className="space-y-6">
+        <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+            <h1 className="text-3xl font-bold tracking-tight">Step 3: AI Use Case Prioritization</h1>
+            <p className="text-slate-600">Organize the use cases based on their expected impact and feasibility and then create a 3-horizon strategy based on those placements.</p>
+        </div>
+        </header>
+
+      {/* --- Impact vs Feasibility --- */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Impact vs Feasibility Chart</CardTitle>
+        </CardHeader>
+        
+        <CardContent className="space-y-4">
+          <p className="text-sm text-slate-600">
+            At this stage, you have enough information to gauge the feasibility of each AI use case.
+            Think of the following questions as you decide how impactful the use case is, and then write
+            each use case’s number into the correct spot on the Impact–Feasibility chart.
+          </p>
+          <ul className="list-disc pl-6 text-sm text-slate-700 space-y-1">
+            <li>What problem does the AI integration opportunity solve?</li>
+            <li>Who is impacted?</li>
+            <li>How will we measure success?</li>
+            <li>What’s the biggest risk?</li>
+          </ul>
+
+            {/* How to use */}
+            <div className="rounded-lg border bg-slate-50 p-3 text-sm text-slate-700">
+            <div className="font-medium mb-1">How to use</div>
+            <ol className="list-decimal pl-5 space-y-1">
+                <li>Each use case is a numbered token (1–8). Drag a token onto the grid.</li>
+                <li>Up = higher <span className="font-medium">Impact</span>. Right = higher <span className="font-medium">Feasibility</span>.</li>
+                <li>As you place tokens, the <span className="font-medium">3 Horizons</span> below fills in automatically.</li>
+            </ol>
+            </div>
+
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr,320px]">
+            {/* Board */}
+            <div className="relative">
+              <div
+                ref={boardRef}
+                className="relative aspect-square w-full rounded-xl border border-slate-300 bg-white"
+              >
+
+                {/* Quadrant coloring */}
+                <div className="absolute inset-0 grid grid-cols-2 grid-rows-2 rounded-xl overflow-hidden">
+                  {/* Top-left: High Impact, Low Feasibility */}
+                  <div className="bg-gradient-to-br from-amber-100/40 to-transparent" />
+                  {/* Top-right: High Impact, High Feasibility */}
+                  <div className="bg-gradient-to-bl from-emerald-100/40 to-transparent" />
+                  {/* Bottom-left: Low Impact, Low Feasibility */}
+                  <div className="bg-gradient-to-tr from-rose-100/40 to-transparent" />
+                  {/* Bottom-right: Low Impact, High Feasibility */}
+                  <div className="bg-gradient-to-tl from-sky-100/40 to-transparent" />
+                </div>
+
+                {/* Axes */}
+                <div className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-slate-400" />
+                <div className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-slate-400" />
+
+                {/* Axis labels */}
+                <div className="absolute left-1/2 -translate-x-1/2 top-2 text-sm sm:text-base font-bold tracking-wider text-slate-700">
+                  IMPACT ↑
+                </div>
+                <div className="absolute right-2 bottom-2 text-sm sm:text-base font-bold tracking-wider text-slate-700">
+                  FEASIBILITY →
+                </div>
+
+                {/* Quadrant hints */}
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div className="absolute left-3 top-10 text-xs text-slate-500 cursor-help">
+                        High impact<br />Low feasibility
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent>Likely transformational, but hard to implement</TooltipContent>
+                  </Tooltip>
+
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div className="absolute right-3 top-10 text-xs text-slate-500 text-right cursor-help">
+                        High impact<br />High feasibility
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent>Best candidates: high-value and achievable</TooltipContent>
+                  </Tooltip>
+
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div className="absolute left-3 bottom-10 text-xs text-slate-500 cursor-help">
+                        Low impact<br />Low feasibility
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent>Avoid: costly with little return</TooltipContent>
+                  </Tooltip>
+
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div className="absolute right-3 bottom-10 text-xs text-slate-500 text-right cursor-help">
+                        Low impact<br />High feasibility
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent>Easy wins, but limited payoff</TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+
+                {/* Draggable tokens */}
+                {useCases.map((u) => {
+                  const pos = getPos(u.id);
+                  return (
+                    <TooltipProvider key={u.id}>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <button
+                            onMouseDown={() => { beginDrag(u.id); start(); }}
+                            onTouchStart={(e) => { e.preventDefault(); beginDrag(u.id); start(); }}
+                            className="absolute -translate-x-1/2 translate-y-1/2 select-none"
+                            style={{
+                              left: `${pos.x * 100}%`,
+                              bottom: `${pos.y * 100}%`,
+                            }}
+                          >
+                        <span
+                          className="inline-block rounded-full px-3 py-1 text-sm sm:text-base font-semibold shadow-sm border-2 transition-transform hover:scale-110 hover:shadow-md"
+                          style={{
+                            color: COLORS[u.id % COLORS.length],
+                            borderColor: COLORS[u.id % COLORS.length],
+                            backgroundColor: `${COLORS[u.id % COLORS.length]}33`,
+                          }}
+                        >
+                          {u.id + 1}
+                        </span>
+                          </button>
+                        </TooltipTrigger>
+                        <TooltipContent className="text-sm max-w-xs">
+                          <div className="font-medium mb-1">{u.name || `Use Case ${u.id + 1}`}</div>
+                          <div className="text-slate-600">{u.description || "No description"}</div>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Legend / list of use cases with numbers */}
+            <div className="rounded-xl border p-3 space-y-2">
+            <div className="text-sm font-medium text-slate-700">Use Case Numbers</div>
+            <Separator />
+            <div className="space-y-1">
+              {useCases.map((u) => {
+                const isSelected = selectedDetail?.id === u.id;
+                return (
+                  <div
+                    key={u.id}
+                    className={`flex items-center gap-3 text-sm cursor-pointer rounded-md px-2 py-1 transition-colors`}
+                    onClick={() =>
+                      setSelectedDetail((prev) => (prev?.id === u.id ? null : u))
+                    }
+                    style={{
+                      backgroundColor: isSelected
+                        ? `${COLORS[u.id % COLORS.length]}22` // soft highlight when selected
+                        : "transparent",
+                      border: isSelected ? `2px solid ${COLORS[u.id % COLORS.length]}` : "2px solid transparent",
+                    }}
+                  >
+                    <span
+                      className="inline-block w-7 h-7 shrink-0 rounded-full grid place-items-center text-sm font-semibold border-2"
+                      style={{
+                        color: COLORS[u.id % COLORS.length],
+                        borderColor: COLORS[u.id % COLORS.length],
+                        backgroundColor: `${COLORS[u.id % COLORS.length]}33`,
+                      }}
+                    >
+                      {u.id + 1}
+                    </span>
+                    <span
+                      className="truncate font-medium"
+                      style={{ color: COLORS[u.id % COLORS.length] }}
+                    >
+                      {u.name || `Use Case ${u.id + 1}`}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+            <Separator />
+            {selectedDetail && (
+              <div className="mt-4">
+                <div className="text-sm font-medium mb-2">
+                  {selectedDetail.name} — Detailed Evaluation
+                </div>
+                <table className="min-w-full text-sm border">
+                  <tbody>
+                    {CRITERIA.map(({ key, label, group, descriptions }) => (
+                      <tr
+                        key={key}
+                        className="border-b last:border-0"
+                        style={{
+                          backgroundColor:
+                            group === "Impact" ? "rgba(251,191,36,0.1)" : "rgba(56,189,248,0.1)",
+                        }}
+                      >
+                        <td
+                          className="py-2 px-3 font-medium border-r"
+                          style={{
+                            color: group === "Impact" ? "#b45309" : "#0369a1",
+                            borderColor: group === "Impact" ? "#b45309" : "#0369a1",
+                          }}
+                        >
+                          {label}
+                        </td>
+                        <td className="py-2 px-3 text-right">
+                          <TooltipProvider delayDuration={500}>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <span className="cursor-help font-semibold">
+                                  {selectedDetail.scores[key]}
+                                </span>
+                              </TooltipTrigger>
+                              <TooltipContent className="max-w-xs text-xs">
+                                <p><strong>0:</strong> {descriptions[0]}</p>
+                                <p><strong>5:</strong> {descriptions[5]}</p>
+                                <p><strong>10:</strong> {descriptions[10]}</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+            <Separator />
+            {/* --- Department Readiness Breakdown --- */}
+            <div className="mt-6">
+              <div className="text-sm font-medium mb-2">Department Readiness Breakdown</div>
+              <table className="min-w-full text-sm border">
+                <tbody>
+                  {READINESS.map((r) => (
+                    <tr key={r.key} className="border-b last:border-0">
+                      <td className="py-2 px-3 font-medium border-r text-slate-700">
+                        {r.label}
+                      </td>
+                      <td className="py-2 px-3 text-right">
+                        <TooltipProvider delayDuration={500}>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <span className="cursor-help font-semibold">
+                                {readinessScores[r.key]}
+                              </span>
+                            </TooltipTrigger>
+                            <TooltipContent className="max-w-xs text-xs">
+                              <p><strong>1:</strong> {r.help.one}</p>
+                              <p><strong>3:</strong> {r.help.three}</p>
+                              <p><strong>5:</strong> {r.help.five}</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* --- Three Horizons --- */}
+      <Card>
+        <CardHeader>
+          <CardTitle>3 Horizons Roadmap</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-slate-600 mb-4">
+            The 3 Horizons framework is a common tool in strategic planning, where each horizon
+            represents a different stage of maturity in AI adoption.
+          </p>
+          <ul className="list-disc pl-6 text-sm text-slate-700 space-y-1 mb-6">
+            <li>Horizon 1: Immediate Opportunities — short-term, low-risk, mature tech and data available.</li>
+            <li>Horizon 2: Emerging Innovations — medium-term; needs some investment in data, workflows, or change management.</li>
+            <li>Horizon 3: Transformative Possibilities — longer-term; depends on less mature tech or substantial new data infrastructure and higher uncertainty/risk.</li>
+          </ul>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <HorizonColumn
+              title="Horizon 1 (High Feasibility)"
+              items={horizonBuckets.H1}
+              horizon={1}
+            />
+            <HorizonColumn
+              title="Horizon 2 (Medium Feasibility)"
+              items={horizonBuckets.H2}
+              horizon={2}
+            />
+            <HorizonColumn
+              title="Horizon 3 (Low Feasibility)"
+              items={horizonBuckets.H3}
+              horizon={3}
+            />
+          </div>
+
+        </CardContent>
+      </Card>
+
+      {/* --- Project Save/Load --- */}
+      <div className="flex justify-center mt-8 gap-3">
+        <Button onClick={() => onExportAll?.()}>
+          <Download className="mr-2 h-4 w-4" />
+          Export Project (.json)
+        </Button>
+
+        <label className="inline-flex items-center justify-center rounded-md border px-4 py-2 text-sm font-medium bg-white hover:bg-slate-50 cursor-pointer">
+          <Upload className="mr-2 h-4 w-4" />
+          Import Project (.json)
+          <input
+            type="file"
+            accept="application/json"
+            className="sr-only"
+            onChange={handleImportJSON}
+          />
+        </label>
+      </div>
+    </div>
+  );
+}
+
+function HorizonColumn({
+  title,
+  items,
+  horizon,
+}: {
+  title: string;
+  items: UseCase[];
+  horizon: 1 | 2 | 3;
+}) {
+  // horizon-specific colors
+  const styles =
+    horizon === 1
+      ? {
+          bg: "bg-emerald-50 border-emerald-200",
+          title: "text-emerald-700",
+        }
+      : horizon === 2
+      ? {
+          bg: "bg-amber-50 border-amber-200",
+          title: "text-amber-700",
+        }
+      : {
+          bg: "bg-rose-50 border-rose-200",
+          title: "text-rose-700",
+        };
+
+  return (
+    <div className={`rounded-xl border p-4 space-y-3 ${styles.bg}`}>
+      <div className={`text-sm font-semibold ${styles.title}`}>{title}</div>
+      {items.length === 0 && (
+        <div className="text-sm text-slate-500">No items yet.</div>
+      )}
+      <div className="flex flex-wrap gap-2">
+        {items.map((u) => (
+          <span
+            key={u.id}
+            className="inline-block rounded-md px-2 py-1 text-sm font-semibold border-2"
+            style={{
+              color: COLORS[u.id % COLORS.length],
+              borderColor: COLORS[u.id % COLORS.length],
+              backgroundColor: `${COLORS[u.id % COLORS.length]}33`,
+            }}
+          >
+            {u.id + 1}. {u.name || `Use Case ${u.id + 1}`}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+
+  
+
+
+
+================================================
+FILE: ai-spider-charts/src/index.css
+================================================
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 10% 3.9%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+
+
+================================================
+FILE: ai-spider-charts/src/main.tsx
+================================================
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.tsx'
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
+
+
+
+================================================
+FILE: ai-spider-charts/src/Scoring_Readiness.tsx
+================================================
+import React, { useEffect, useMemo, useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Separator } from "@/components/ui/separator";
+import { Download, Upload, ChevronRight, ChevronLeft } from "lucide-react";
+import AISpiderCharts, { UseCase, defaultUseCases } from "./AISpiderCharts";
+import ImpactFeasibility from "./ImpactFeasibility";
+
+// -----------------------------
+// Department Readiness Self‑Assessment
+// -----------------------------
+
+type ReadinessKey =
+  | "dataMaturity"
+  | "peopleSkills"
+  | "processesWorkflows"
+  | "governanceRisk"
+  | "resourcesBudget"
+  | "techInfra"
+  | "changeReadiness"
+  | "leadershipAlignment"
+  | "partnerships"
+  | "citizenOrientation"
+  | "ethicsTrust";
+
+export const READINESS: {
+  key: ReadinessKey;
+  label: string;
+  help: { one: string; three: string; five: string };
+}[] = [
+  {
+    key: "dataMaturity",
+    label: "Data Maturity",
+    help: {
+      one: "Most information is trapped in PDFs, spreadsheets, or siloed systems",
+      three: "Some structured data available, but inconsistent or fragmented",
+      five: "Clean, accessible, and interoperable datasets readily usable for AI",
+    },
+  },
+  {
+    key: "peopleSkills",
+    label: "People & Skills",
+    help: {
+      one: "Little to no AI awareness among staff",
+      three: "Basic literacy in some teams, but limited expertise",
+      five: "Strong champions with dedicated expertise inside the department",
+    },
+  },
+  {
+    key: "processesWorkflows",
+    label: "Processes & Workflows",
+    help: {
+      one: "Highly ad‑hoc, undocumented ways of working",
+      three: "Some consistency, but gaps or bottlenecks exist",
+      five: "Clearly defined, standardised workflows",
+    },
+  },
+  {
+    key: "governanceRisk",
+    label: "Governance & Risk",
+    help: {
+      one: "No oversight or policies for AI use",
+      three: "Draft or informal policies in place",
+      five: "Clear guardrails, accountability mechanisms, and risk frameworks",
+    },
+  },
+  {
+    key: "resourcesBudget",
+    label: "Resources & Budget",
+    help: {
+      one: "No funds, staff time, or executive support available",
+      three: "Some resources identified but not dedicated",
+      five: "Dedicated funding and leadership support for AI pilots",
+    },
+  },
+  {
+    key: "techInfra",
+    label: "Technology Infrastructure",
+    help: {
+      one: "Outdated systems, low integration",
+      three: "Some modern systems but with interoperability challenges",
+      five: "Robust, modern, well‑integrated IT environment",
+    },
+  },
+  {
+    key: "changeReadiness",
+    label: "Change Readiness / Culture",
+    help: {
+      one: "Resistant to new ways of working",
+      three: "Some openness, but skepticism or silos remain",
+      five: "Strong culture of experimentation, improvement, and adaptation",
+    },
+  },
+  {
+    key: "leadershipAlignment",
+    label: "Leadership & Strategic Alignment",
+    help: {
+      one: "No AI strategy, leadership not engaged",
+      three: "Some leaders show interest, but limited strategic alignment",
+      five: "Clear vision from leadership, AI explicitly tied to departmental strategy",
+    },
+  },
+  {
+    key: "partnerships",
+    label: "Partnerships & External Ecosystem",
+    help: {
+      one: "No collaborations with external actors (academia, vendors, peers)",
+      three: "Some ad‑hoc relationships but not formalized",
+      five: "Active partnerships that provide expertise, resources, or benchmarking",
+    },
+  },
+  {
+    key: "citizenOrientation",
+    label: "Citizen/Stakeholder Orientation",
+    help: {
+      one: "No structured approach to understanding citizen needs in digital services",
+      three: "Some consultation but limited feedback loops",
+      five: "Continuous citizen/stakeholder feedback integrated into design and evaluation",
+    },
+  },
+  {
+    key: "ethicsTrust",
+    label: "Ethics & Public Trust",
+    help: {
+      one: "Little/no consideration of ethical implications of AI use",
+      three: "Ethical concerns raised occasionally, not systematic",
+      five: "Active attention to fairness, bias, transparency, and building public trust",
+    },
+  },
+];
+
+export type ReadinessScores = Record<ReadinessKey, number> & { notes?: string };
+
+export const defaultReadiness = (): ReadinessScores => ({
+  dataMaturity: 3,
+  peopleSkills: 3,
+  processesWorkflows: 3,
+  governanceRisk: 3,
+  resourcesBudget: 3,
+  techInfra: 3,
+  changeReadiness: 3,
+  leadershipAlignment: 3,
+  partnerships: 3,
+  citizenOrientation: 3,
+  ethicsTrust: 3,
+  notes: "",
+});
+
+function band(n: number) {
+  if (n < 2.5) return { label: "Foundational", tone: "bg-red-100 text-red-700 border-red-200" };
+  if (n < 3.75) return { label: "Emerging", tone: "bg-amber-100 text-amber-800 border-amber-200" };
+  return { label: "Ready", tone: "bg-emerald-100 text-emerald-800 border-emerald-200" };
+}
+
+function clamp15(n: number) {
+  if (Number.isNaN(n)) return 1;
+  return Math.max(1, Math.min(5, Math.round(n)));
+}
+
+function ReadinessSummary({ scores }: { scores: ReadinessScores }) {
+  const values = READINESS.map(r => scores[r.key]);
+  const avg = useMemo(() => (values.reduce((a, b) => a + b, 0) / values.length), [values]);
+  const { label, tone } = band(avg);
+  const pct = Math.round(((avg - 1) / 4) * 100); // 1..5 → 0..100%
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Overall Readiness</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="flex items-center justify-between text-sm text-slate-600">
+          <span>Score</span>
+          <span className={`rounded-full border px-2 py-0.5 ${tone}`}>{label}</span>
+        </div>
+        <div className="h-3 w-full overflow-hidden rounded-full bg-slate-200">
+          <div className="h-full bg-slate-900" style={{ width: `${pct}%` }} />
+        </div>
+        <p className="text-sm text-slate-600">Average: <strong className="font-mono">{avg.toFixed(2)}</strong> / 5</p>
+        <ul className="text-sm text-slate-600 list-disc pl-5 space-y-1">
+          <li><span className="font-medium">Foundational</span> (≤ 2.4): begin with data plumbing, policy basics, and pilot literacy.</li>
+          <li><span className="font-medium">Emerging</span> (2.5–3.7): formalize workflows, governance, and partnerships.</li>
+          <li><span className="font-medium">Ready</span> (≥ 3.8): proceed with scoped AI pilots tied to strategy.</li>
+        </ul>
+      </CardContent>
+    </Card>
+  );
+}
+
+function DepartmentReadiness({scores, setScores,}: {scores: ReadinessScores; setScores: React.Dispatch<React.SetStateAction<ReadinessScores>>;}) {
+    const update = (k: ReadinessKey, v: number) =>
+      setScores((s) => ({ ...s, [k]: clamp15(v) }));
+
+  const exportJSON = () => {
+    const data = JSON.stringify(scores, null, 2);
+    const blob = new Blob([data], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "department-readiness.json";
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const importJSON = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const file = evt.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const parsed = JSON.parse(String(reader.result));
+        const next: ReadinessScores = { ...defaultReadiness(), ...parsed };
+        // Coerce to 1..5
+        READINESS.forEach((r) => (next[r.key] = clamp15(Number(next[r.key]))));
+        setScores(next);
+      } catch (e) {
+        alert("Could not parse JSON file.");
+      }
+    };
+    reader.readAsText(file);
+  };
+
+  return (
+    <div className="space-y-6">
+      <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Step 1: Department Readiness Self‑Assessment</h1>
+          <p className="text-slate-600">Rate each area from 1–5. Keep it simple and honest — this frames where to start.</p>
+        </div>
+      </header>
+
+      <Alert>
+        <AlertTitle>How to score</AlertTitle>
+        <AlertDescription>
+          Use 1, 3, or 5 as anchors — 2 and 4 are fine for “between” states. Hover the numbers for the anchor descriptions.
+        </AlertDescription>
+      </Alert>
+
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        {/* Left: Form */}
+        <Card className="order-2 lg:order-1">
+          <CardHeader>
+            <CardTitle>Assessment</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Tabs defaultValue={READINESS[0].key}>
+                {/* Wrap the TabsList so it occupies full block flow and pushes content down */}
+                <div className="w-full min-h-[200px]"> 
+                <TabsList className="flex w-full flex-wrap justify-start gap-2" style={{ minHeight: "13.5rem" }}>
+                    {READINESS.map((r) => (
+                    <TabsTrigger
+                        key={r.key}
+                        value={r.key}
+                        className="data-[state=active]:bg-slate-900 data-[state=active]:text-white"
+                    >
+                        {r.label}
+                    </TabsTrigger>
+                    ))}
+                </TabsList>
+                </div>
+
+                {READINESS.map((r) => (
+                <TabsContent key={r.key} value={r.key} className="mt-6">
+                    <div className="rounded-2xl border p-4 space-y-4">
+                    <Label className="text-sm">{r.label}</Label>
+
+                    {/* Score buttons */}
+                    <div className="grid grid-cols-5 gap-2">
+                        {[1, 2, 3, 4, 5].map((n) => (
+                        <TooltipProvider key={n}>
+                            <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button
+                                variant={scores[r.key] === n ? "default" : "outline"}
+                                className="w-full"
+                                onClick={() => update(r.key, n)}
+                                >
+                                {n}
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent className="max-w-xs text-sm">
+                                {n === 1 && <span>{r.help.one}</span>}
+                                {n === 3 && <span>{r.help.three}</span>}
+                                {n === 5 && <span>{r.help.five}</span>}
+                                {(n === 2 || n === 4) && (
+                                <span>
+                                    Between {n === 2 ? "1 and 3" : "3 and 5"} — pick what feels right.
+                                </span>
+                                )}
+                            </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
+                        ))}
+                    </div>
+
+                    {/* Anchors description */}
+                    <div className="text-xs text-slate-600 space-y-1">
+                    <div><span className="font-medium">Anchors:</span></div>
+                    <div>1 — {r.help.one}</div>
+                    <div>3 — {r.help.three}</div>
+                    <div>5 — {r.help.five}</div>
+                    </div>
+                    </div>
+                </TabsContent>
+                ))}
+            </Tabs>
+
+            {/* ⬇️ REMOVE the Notes section entirely (was here before) */}
+            </CardContent>
+
+        </Card>
+
+        {/* Right: Summary */}
+        <div className="order-1 space-y-6 lg:order-2">
+          <ReadinessSummary scores={scores} />
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Dimension Breakdown</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {READINESS.map((r) => {
+                const val = scores[r.key];
+                const pct = Math.round(((val - 1) / 4) * 100);
+                return (
+                  <div key={r.key} className="space-y-1">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-slate-700">{r.label}</span>
+                      <span className="font-mono text-slate-600">{val}/5</span>
+                    </div>
+                    <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200">
+                      <div className="h-full bg-slate-900" style={{ width: `${pct}%` }} />
+                    </div>
+                  </div>
+                );
+              })}
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
+    </div>
+  );
+}
+
+// -----------------------------
+// Wrapper: Step 1 (Readiness) → Step 2 (Use Case Scoring)
+// -----------------------------
+
+// export default function AIReadinessAndScoring() {
+//   const [step, setStep] = useState<"readiness" | "scoring">("readiness");
+
+//   return (
+//     <TooltipProvider>
+//       <div className="min-h-screen w-full bg-gradient-to-b from-slate-50 to-white p-6">
+//         <div className="mx-auto max-w-7xl space-y-6">
+//           <div className="flex items-center justify-between">
+//             <div className="flex items-center gap-2 text-slate-700 text-sm">
+//               <span className={`inline-flex items-center gap-1 ${step === "readiness" ? "font-semibold" : "opacity-60"}`}>
+//                 <ChevronRight className="-ml-1 h-4 w-4"/> Readiness
+//               </span>
+//               <span className="opacity-40">/</span>
+//               <span className={`inline-flex items-center gap-1 ${step === "scoring" ? "font-semibold" : "opacity-60"}`}>
+//                 <ChevronRight className="-ml-1 h-4 w-4"/> Use Case Scoring
+//               </span>
+//             </div>
+//             <div className="flex items-center gap-2">
+//               {step === "scoring" && (
+//                 <Button variant="outline" onClick={() => setStep("readiness")}> <ChevronLeft className="mr-2 h-4 w-4"/> Back to Readiness</Button>
+//               )}
+//               {step === "readiness" && (
+//                 <Button onClick={() => setStep("scoring")}>Continue to Use Case Scoring <ChevronRight className="ml-2 h-4 w-4"/></Button>
+//               )}
+//             </div>
+//           </div>
+
+//           {step === "readiness" ? <DepartmentReadiness /> : <AISpiderCharts />}
+//         </div>
+//       </div>
+//     </TooltipProvider>
+//   );
+// }
+
+const demoReadinessScores = {
+  dataMaturity: 3,
+  peopleSkills: 4,
+  processesWorkflows: 3,
+  governanceRisk: 2,
+  resourcesBudget: 1,
+  techInfra: 3,
+  changeReadiness: 4,
+  leadershipAlignment: 4,
+  partnerships: 3,
+  citizenOrientation: 4,
+  ethicsTrust: 3,
+  notes: "",
+};
+
+export const demoUseCases: UseCase[] = [
+  {
+    id: 0,
+    name: "Smart Visitor Forecasting",
+    description: "AI models predict visitor flows to museums, parks, and cultural sites to optimize staffing and avoid overcrowding.",
+    visible: true,
+    scores: {
+      dataReady: 8,
+      techMature: 8,
+      lowImplementationCost: 7,
+      reusable: 6,
+      increasesProductivity: 9,
+      reducesCosts: 7,
+      benefitsPublic: 9,
+      noRisk: 7,
+      increaseRevenue: 2,
+      strategicImpact: 7, 
+    },
+  },
+  {
+    id: 1,
+    name: "Personalized Itineraries",
+    description: "Recommender systems suggest tailored itineraries based on visitor preferences and historical data.",
+    visible: true,
+    scores: {
+      dataReady: 7,
+      techMature: 8,
+      lowImplementationCost: 6,
+      reusable: 8,
+      increasesProductivity: 7,
+      reducesCosts: 6,
+      benefitsPublic: 9,
+      noRisk: 6,
+      increaseRevenue: 9,
+      strategicImpact: 7, 
+    },
+  },
+  {
+    id: 2,
+    name: "Heritage Preservation AI",
+    description: "Computer vision detects early signs of degradation in monuments/artifacts from photos and drone scans.",
+    visible: true,
+    scores: {
+      dataReady: 5,
+      techMature: 6,
+      lowImplementationCost: 4,
+      reusable: 5,
+      increasesProductivity: 7,
+      reducesCosts: 6,
+      benefitsPublic: 8,
+      noRisk: 5,
+      increaseRevenue: 2,
+      strategicImpact: 8, 
+    },
+  },
+  {
+    id: 3,
+    name: "Tourist Query Assistant",
+    description: "Multilingual chatbot answers FAQs for tourists, reducing strain on call centers.",
+    visible: true,
+    scores: {
+      dataReady: 8,
+      techMature: 9,
+      lowImplementationCost: 8,
+      reusable: 7,
+      increasesProductivity: 8,
+      reducesCosts: 7,
+      benefitsPublic: 9,
+      noRisk: 7,
+      increaseRevenue: 2,
+      strategicImpact: 7, 
+    },
+  },
+  {
+    id: 4,
+    name: "Sentiment Analysis",
+    description: "Natural language processing of social media posts and reviews to gauge tourist satisfaction.",
+    visible: true,
+    scores: {
+      dataReady: 7,
+      techMature: 8,
+      lowImplementationCost: 7,
+      reusable: 6,
+      increasesProductivity: 7,
+      reducesCosts: 6,
+      benefitsPublic: 8,
+      noRisk: 7,
+      increaseRevenue: 6,
+      strategicImpact: 3, 
+    },
+  },
+  {
+    id: 5,
+    name: "Fraud Detection",
+    description: "AI detects unusual booking/payment patterns to prevent fraud.",
+    visible: true,
+    scores: {
+      dataReady: 7,
+      techMature: 8,
+      lowImplementationCost: 7,
+      reusable: 8,
+      increasesProductivity: 8,
+      reducesCosts: 9,
+      benefitsPublic: 6,
+      noRisk: 7,
+      increaseRevenue: 1,
+      strategicImpact: 7, 
+    },
+  },
+  {
+    id: 6,
+    name: "AR/VR Experiences",
+    description: "Immersive AI-powered VR tours for sites under renovation or with limited accessibility.",
+    visible: true,
+    scores: {
+      dataReady: 4,
+      techMature: 6,
+      lowImplementationCost: 4,
+      reusable: 6,
+      increasesProductivity: 7,
+      reducesCosts: 5,
+      benefitsPublic: 9,
+      noRisk: 4,
+      increaseRevenue: 8,
+      strategicImpact: 3, 
+    },
+  },
+  {
+    id: 7,
+    name: "Dynamic Pricing",
+    description: "AI optimizes ticket pricing based on demand, seasonality, and visitor demographics.",
+    visible: true,
+    scores: {
+      dataReady: 6,
+      techMature: 7,
+      lowImplementationCost: 5,
+      reusable: 7,
+      increasesProductivity: 7,
+      reducesCosts: 8,
+      benefitsPublic: 6,
+      noRisk: 6,
+      increaseRevenue: 9,
+      strategicImpact: 2, 
+    },
+  },
+];
+
+export const demoPlacements = {
+  0: { x: 0.80, y: 0.70 }, // Smart Visitor Forecasting
+  3: { x: 0.85, y: 0.70 }, // Tourist Query Assistant
+  1: { x: 0.50, y: 0.80 }, // Personalized Itineraries
+  2: { x: 0.25, y: 0.90 }, // Heritage AI
+  6: { x: 0.20, y: 0.90 }, // AR/VR
+  4: { x: 0.80, y: 0.40 }, // Sentiment Analysis
+  5: { x: 0.85, y: 0.40 }, // Fraud Detection
+  7: { x: 0.40, y: 0.40 }, // Dynamic Pricing
+}
+
+
+export default function AIReadinessAndScoring() {
+    const params = new URLSearchParams(window.location.search);
+
+    const [step, setStep] = useState<"readiness" | "scoring">("readiness");
+  
+    const [scores, setScores] = useState<ReadinessScores>(defaultReadiness());
+    const [useCases, setUseCases] = useState<UseCase[]>(defaultUseCases);
+    const [placements, setPlacements] = useState<Record<number, { x: number; y: number }>>({});
+
+    
+  // 👇 ADD THIS useEffect block
+  if (params.get("mode") == "demo") {
+    useEffect(() => {
+      setScores(demoReadinessScores);
+      setUseCases(demoUseCases);
+      setPlacements(demoPlacements);
+    }, []);
+  }
+
+  function clamp1to5(n: any) {
+    const num = Math.round(Number(n));
+    if (Number.isNaN(num)) return 1;
+    return Math.max(1, Math.min(5, num));
+  }
+
+  function clamp1to10(n: any) {
+    const num = Math.round(Number(n));
+    if (Number.isNaN(num)) return 1;
+    return Math.max(1, Math.min(10, num));
+  }
+
+  function exportProject() {
+    const payload = {
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      scores,
+      useCases,
+      placements,
+    };
+    const data = JSON.stringify(payload, null, 2);
+    const blob = new Blob([data], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "ai-project-export.json";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function importProject(payload: any) {
+    try {
+      // --- Scores ---
+      const nextScores: ReadinessScores = { ...defaultReadiness() };
+      if (payload?.scores && typeof payload.scores === "object") {
+        // Coerce each readiness key to 1..5 (use the READINESS keys we already have)
+        READINESS.forEach((r) => {
+          nextScores[r.key] = clamp1to5(payload.scores[r.key]);
+        });
+        // Preserve notes if present (optional in your type)
+        if (typeof payload.scores.notes === "string") {
+          nextScores.notes = payload.scores.notes;
+        }
+      }
+
+      // --- Use cases (expect 8; fill/repair if needed) ---
+      let incomingUC = Array.isArray(payload?.useCases) ? payload.useCases : [];
+      if (incomingUC.length < 8) {
+        incomingUC = [
+          ...incomingUC,
+          ...new Array(8 - incomingUC.length).fill(null).map((_, i) => ({
+            id: i,
+            name: `Use Case ${i + 1}`,
+            description: "",
+            visible: true,
+            scores: {
+              dataReady: 5,
+              techMature: 5,
+              lowImplementationCost: 5,
+              reusable: 5,
+              increasesProductivity: 5,
+              reducesCosts: 5,
+              benefitsPublic: 5,
+              noRisk: 5,
+            },
+          })),
+        ];
+      } else if (incomingUC.length > 8) {
+        incomingUC = incomingUC.slice(0, 8);
+      }
+
+      const nextUseCases = incomingUC.map((u: any, i: number) => ({
+        id: i,
+        name: typeof u?.name === "string" ? u.name : `Use Case ${i + 1}`,
+        description: typeof u?.description === "string" ? u.description : "",
+        visible: typeof u?.visible === "boolean" ? u.visible : true,
+        scores: {
+          dataReady: clamp1to10(u?.scores?.dataReady),
+          techMature: clamp1to10(u?.scores?.techMature),
+          lowImplementationCost: clamp1to10(u?.scores?.lowImplementationCost),
+          reusable: clamp1to10(u?.scores?.reusable),
+          increasesProductivity: clamp1to10(u?.scores?.increasesProductivity),
+          reducesCosts: clamp1to10(u?.scores?.reducesCosts),
+          benefitsPublic: clamp1to10(u?.scores?.benefitsPublic),
+          noRisk: clamp1to10(u?.scores?.noRisk),
+        },
+      }));
+
+      // --- Placements (x,y in 0..1) ---
+      const nextPlacements: Record<number, { x: number; y: number }> = {};
+      if (payload?.placements && typeof payload.placements === "object") {
+        Object.keys(payload.placements).forEach((k) => {
+          const id = Number(k);
+          const p = payload.placements[k];
+          if (Number.isInteger(id) && p && typeof p === "object") {
+            const x = Math.max(0, Math.min(1, Number(p.x)));
+            const y = Math.max(0, Math.min(1, Number(p.y)));
+            if (!Number.isNaN(x) && !Number.isNaN(y)) {
+              nextPlacements[id] = { x, y };
+            }
+          }
+        });
+      }
+
+      // --- Apply in one shot ---
+      setScores(nextScores);
+      setUseCases(nextUseCases);
+      setPlacements(nextPlacements);
+
+      // Optional: jump user to the Prioritization view they’re working in
+      // setStep("prioritization");
+      alert("Project imported successfully.");
+    } catch (e) {
+      console.error(e);
+      alert("Import failed. Please check the JSON structure.");
+    }
+  }
+
+    return (
+        <TooltipProvider>
+          <div className="min-h-screen w-full bg-gradient-to-b from-slate-50 to-white p-6">
+            <div className="mx-auto max-w-7xl space-y-6">
+              {/* Breadcrumbs / nav */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2 text-slate-700 text-sm">
+                  <span className={step === "readiness" ? "font-semibold" : "opacity-60"}>Readiness</span>
+                  <span className="opacity-40">/</span>
+                  <span className={step === "scoring" ? "font-semibold" : "opacity-60"}>Use Case Scoring</span>
+                  <span className="opacity-40">/</span>
+                  <span className={step === "prioritization" ? "font-semibold" : "opacity-60"}>Prioritization</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  {step !== "readiness" && (
+                    <Button
+                      variant="outline"
+                      onClick={() => setStep(step === "prioritization" ? "scoring" : "readiness")}
+                    >
+                      Back
+                    </Button>
+                  )}
+                  {step !== "prioritization" && (
+                    <Button
+                      onClick={() => setStep(step === "readiness" ? "scoring" : "prioritization")}
+                    >
+                      Continue
+                    </Button>
+                  )}
+                </div>
+              </div>
+    
+              {step === "readiness" && (
+                <DepartmentReadiness scores={scores} setScores={setScores} />
+              )}
+              {step === "scoring" && (
+                <AISpiderCharts useCases={useCases} setUseCases={setUseCases} />
+              )}
+              {step === "prioritization" && (
+                <ImpactFeasibility
+                  useCases={useCases}
+                  placements={placements}
+                  setPlacements={setPlacements}
+                  onExportAll={exportProject}
+                  onImportAll={importProject}
+                  readinessScores={scores}
+                />
+              )}
+            </div>
+            <footer className="mt-12 border-t pt-6 text-center text-sm text-slate-600">
+              <p>Designed by <span className="font-medium">Firas Darwish</span> & <span className="font-medium">Dhiyaa Al Jorf</span></p>
+              <p className="mt-1">
+                <span >Hosted on </span>
+                <a 
+                  href="https://firasdarwish.com" 
+                  className="text-blue-600 hover:text-blue-800 underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                firasdarwish.com
+                </a>
+              </p>
+            </footer>
+          </div>
+        </TooltipProvider>
+      );
+    }
+
+
+================================================
+FILE: ai-spider-charts/src/vite-env.d.ts
+================================================
+/// <reference types="vite/client" />
+
+
+
+================================================
+FILE: ai-spider-charts/src/components/ui/alert.tsx
+================================================
+import * as React from "react"
+import { cva, type VariantProps } from "class-variance-authority"
+
+import { cn } from "@/lib/utils"
+
+const alertVariants = cva(
+  "relative w-full rounded-lg border px-4 py-3 text-sm [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground [&>svg~*]:pl-7",
+  {
+    variants: {
+      variant: {
+        default: "bg-background text-foreground",
+        destructive:
+          "border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+const Alert = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof alertVariants>
+>(({ className, variant, ...props }, ref) => (
+  <div
+    ref={ref}
+    role="alert"
+    className={cn(alertVariants({ variant }), className)}
+    {...props}
+  />
+))
+Alert.displayName = "Alert"
+
+const AlertTitle = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLHeadingElement>
+>(({ className, ...props }, ref) => (
+  <h5
+    ref={ref}
+    className={cn("mb-1 font-medium leading-none tracking-tight", className)}
+    {...props}
+  />
+))
+AlertTitle.displayName = "AlertTitle"
+
+const AlertDescription = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLParagraphElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("text-sm [&_p]:leading-relaxed", className)}
+    {...props}
+  />
+))
+AlertDescription.displayName = "AlertDescription"
+
+export { Alert, AlertTitle, AlertDescription }
+
+
+
+================================================
+FILE: ai-spider-charts/src/components/ui/button.tsx
+================================================
+import * as React from "react"
+import { Slot } from "@radix-ui/react-slot"
+import { cva, type VariantProps } from "class-variance-authority"
+
+import { cn } from "@/lib/utils"
+
+const buttonVariants = cva(
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  {
+    variants: {
+      variant: {
+        default:
+          "bg-primary text-primary-foreground shadow hover:bg-primary/90",
+        destructive:
+          "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+        outline:
+          "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
+        secondary:
+          "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        link: "text-primary underline-offset-4 hover:underline",
+      },
+      size: {
+        default: "h-9 px-4 py-2",
+        sm: "h-8 rounded-md px-3 text-xs",
+        lg: "h-10 rounded-md px-8",
+        icon: "h-9 w-9",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  }
+)
+
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean
+}
+
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant, size, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : "button"
+    return (
+      <Comp
+        className={cn(buttonVariants({ variant, size, className }))}
+        ref={ref}
+        {...props}
+      />
+    )
+  }
+)
+Button.displayName = "Button"
+
+export { Button, buttonVariants }
+
+
+
+================================================
+FILE: ai-spider-charts/src/components/ui/card.tsx
+================================================
+import * as React from "react"
+
+import { cn } from "@/lib/utils"
+
+const Card = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn(
+      "rounded-xl border bg-card text-card-foreground shadow",
+      className
+    )}
+    {...props}
+  />
+))
+Card.displayName = "Card"
+
+const CardHeader = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("flex flex-col space-y-1.5 p-6", className)}
+    {...props}
+  />
+))
+CardHeader.displayName = "CardHeader"
+
+const CardTitle = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("font-semibold leading-none tracking-tight", className)}
+    {...props}
+  />
+))
+CardTitle.displayName = "CardTitle"
+
+const CardDescription = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("text-sm text-muted-foreground", className)}
+    {...props}
+  />
+))
+CardDescription.displayName = "CardDescription"
+
+const CardContent = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
+))
+CardContent.displayName = "CardContent"
+
+const CardFooter = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("flex items-center p-6 pt-0", className)}
+    {...props}
+  />
+))
+CardFooter.displayName = "CardFooter"
+
+export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
+
+
+
+================================================
+FILE: ai-spider-charts/src/components/ui/input.tsx
+================================================
+import * as React from "react"
+
+import { cn } from "@/lib/utils"
+
+const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
+  ({ className, type, ...props }, ref) => {
+    return (
+      <input
+        type={type}
+        className={cn(
+          "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+          className
+        )}
+        ref={ref}
+        {...props}
+      />
+    )
+  }
+)
+Input.displayName = "Input"
+
+export { Input }
+
+
+
+================================================
+FILE: ai-spider-charts/src/components/ui/label.tsx
+================================================
+import * as React from "react"
+import * as LabelPrimitive from "@radix-ui/react-label"
+import { cva, type VariantProps } from "class-variance-authority"
+
+import { cn } from "@/lib/utils"
+
+const labelVariants = cva(
+  "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+)
+
+const Label = React.forwardRef<
+  React.ElementRef<typeof LabelPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> &
+    VariantProps<typeof labelVariants>
+>(({ className, ...props }, ref) => (
+  <LabelPrimitive.Root
+    ref={ref}
+    className={cn(labelVariants(), className)}
+    {...props}
+  />
+))
+Label.displayName = LabelPrimitive.Root.displayName
+
+export { Label }
+
+
+
+================================================
+FILE: ai-spider-charts/src/components/ui/separator.tsx
+================================================
+import * as React from "react"
+import * as SeparatorPrimitive from "@radix-ui/react-separator"
+
+import { cn } from "@/lib/utils"
+
+const Separator = React.forwardRef<
+  React.ElementRef<typeof SeparatorPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof SeparatorPrimitive.Root>
+>(
+  (
+    { className, orientation = "horizontal", decorative = true, ...props },
+    ref
+  ) => (
+    <SeparatorPrimitive.Root
+      ref={ref}
+      decorative={decorative}
+      orientation={orientation}
+      className={cn(
+        "shrink-0 bg-border",
+        orientation === "horizontal" ? "h-[1px] w-full" : "h-full w-[1px]",
+        className
+      )}
+      {...props}
+    />
+  )
+)
+Separator.displayName = SeparatorPrimitive.Root.displayName
+
+export { Separator }
+
+
+
+================================================
+FILE: ai-spider-charts/src/components/ui/tabs.tsx
+================================================
+"use client"
+
+import * as React from "react"
+import * as TabsPrimitive from "@radix-ui/react-tabs"
+
+import { cn } from "@/lib/utils"
+
+const Tabs = TabsPrimitive.Root
+
+const TabsList = React.forwardRef<
+  React.ElementRef<typeof TabsPrimitive.List>,
+  React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>
+>(({ className, ...props }, ref) => (
+  <TabsPrimitive.List
+    ref={ref}
+    className={cn(
+      "inline-flex h-9 items-center justify-center rounded-lg bg-muted p-1 text-muted-foreground",
+      className
+    )}
+    {...props}
+  />
+))
+TabsList.displayName = TabsPrimitive.List.displayName
+
+const TabsTrigger = React.forwardRef<
+  React.ElementRef<typeof TabsPrimitive.Trigger>,
+  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>
+>(({ className, ...props }, ref) => (
+  <TabsPrimitive.Trigger
+    ref={ref}
+    className={cn(
+      "inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow",
+      className
+    )}
+    {...props}
+  />
+))
+TabsTrigger.displayName = TabsPrimitive.Trigger.displayName
+
+const TabsContent = React.forwardRef<
+  React.ElementRef<typeof TabsPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>
+>(({ className, ...props }, ref) => (
+  <TabsPrimitive.Content
+    ref={ref}
+    className={cn(
+      "mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+      className
+    )}
+    {...props}
+  />
+))
+TabsContent.displayName = TabsPrimitive.Content.displayName
+
+export { Tabs, TabsList, TabsTrigger, TabsContent }
+
+
+
+================================================
+FILE: ai-spider-charts/src/components/ui/textarea.tsx
+================================================
+import * as React from "react"
+
+import { cn } from "@/lib/utils"
+
+const Textarea = React.forwardRef<
+  HTMLTextAreaElement,
+  React.ComponentProps<"textarea">
+>(({ className, ...props }, ref) => {
+  return (
+    <textarea
+      className={cn(
+        "flex min-h-[60px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+        className
+      )}
+      ref={ref}
+      {...props}
+    />
+  )
+})
+Textarea.displayName = "Textarea"
+
+export { Textarea }
+
+
+
+================================================
+FILE: ai-spider-charts/src/components/ui/tooltip.tsx
+================================================
+import * as React from "react"
+import * as TooltipPrimitive from "@radix-ui/react-tooltip"
+
+import { cn } from "@/lib/utils"
+
+const TooltipProvider = TooltipPrimitive.Provider
+
+const Tooltip = TooltipPrimitive.Root
+
+const TooltipTrigger = TooltipPrimitive.Trigger
+
+const TooltipContent = React.forwardRef<
+  React.ElementRef<typeof TooltipPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
+>(({ className, sideOffset = 4, ...props }, ref) => (
+  <TooltipPrimitive.Portal>
+    <TooltipPrimitive.Content
+      ref={ref}
+      sideOffset={sideOffset}
+      className={cn(
+        "z-50 overflow-hidden rounded-md bg-primary px-3 py-1.5 text-xs text-primary-foreground animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 origin-[--radix-tooltip-content-transform-origin]",
+        className
+      )}
+      {...props}
+    />
+  </TooltipPrimitive.Portal>
+))
+TooltipContent.displayName = TooltipPrimitive.Content.displayName
+
+export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider }
+
+
+
+================================================
+FILE: ai-spider-charts/src/lib/utils.ts
+================================================
+import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+
+
+
+================================================
+FILE: .github/workflows/deploy.yml
+================================================
+name: Deploy Vite site to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ai-spider-charts  # 👈 run inside your subfolder
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install deps
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./ai-spider-charts/dist   # 👈 built site is here
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+

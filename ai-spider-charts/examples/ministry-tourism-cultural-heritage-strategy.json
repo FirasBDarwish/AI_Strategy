@@ -1,0 +1,245 @@
+{
+  "version": 2,
+  "readinessScores": {
+    "dataMaturity": 4,
+    "peopleSkills": 5,
+    "processesWorkflows": 4,
+    "governanceRisk": 4,
+    "resourcesBudget": 4,
+    "techInfra": 5,
+    "changeReadiness": 5,
+    "leadershipAlignment": 5,
+    "partnerships": 4,
+    "citizenOrientation": 5,
+    "ethicsTrust": 4,
+    "notes": "The Ministry has strong AI literacy, specialist capability, executive sponsorship, and change readiness. People & Skills is assessed at 5/5. Data, governance, funding, and ecosystem readiness are strong but not assumed to remove the delivery constraints of complex use cases."
+  },
+  "impactWeights": {
+    "increasesProductivity": 25,
+    "reducesCosts": 5,
+    "benefitsPublic": 35,
+    "increaseRevenue": 10,
+    "strategicImpact": 25
+  },
+  "functions": [
+    {
+      "id": "function-visitor-services",
+      "name": "Visitor Services",
+      "description": "Digital and in-person support that helps tourists discover, navigate, and enjoy the destination."
+    },
+    {
+      "id": "function-regulation",
+      "name": "Tourism Regulation",
+      "description": "Licensing, inspection, compliance, and service-quality assurance for tourism establishments."
+    },
+    {
+      "id": "function-communications",
+      "name": "Destination Communications",
+      "description": "Publication and maintenance of official event, attraction, and visitor-service information."
+    },
+    {
+      "id": "function-conservation",
+      "name": "Heritage Conservation",
+      "description": "Monitoring, preservation planning, and technical stewardship of physical heritage assets."
+    }
+  ],
+  "problems": [
+    {
+      "id": "problem-tourist-guidance",
+      "functionId": "function-visitor-services",
+      "title": "Tourists cannot get timely, trusted guidance in their preferred language",
+      "description": "Visitors must search fragmented websites, maps, event listings, transport information, and venue guidance. Information quality varies by language and tourists struggle to get contextual help while moving around the city.",
+      "affectedStakeholders": "International and domestic tourists, visitor-information staff, attractions, transport operators, hotels, and event organizers",
+      "importance": "high",
+      "linkedUseCaseIds": ["use-case-multilingual-companion"]
+    },
+    {
+      "id": "problem-licensing-review",
+      "functionId": "function-regulation",
+      "title": "Tourism licensing and inspection work is slow and document-intensive",
+      "description": "Officers repeatedly interpret complex rules, reconcile evidence across legacy systems, and prepare inspection material manually. The value is substantial, but the workflow contains exceptions and consequential regulatory decisions.",
+      "affectedStakeholders": "Licensing officers, inspectors, tourism businesses, legal teams, applicants, and ministry leadership",
+      "importance": "high",
+      "linkedUseCaseIds": ["use-case-licensing-inspection"]
+    },
+    {
+      "id": "problem-event-publishing",
+      "functionId": "function-communications",
+      "title": "Routine event and attraction updates are published slowly across channels",
+      "description": "Communications staff reformat the same approved information for the website, mobile channels, newsletters, and social media. The task is repetitive and easy to automate, but its strategic effect is limited compared with direct visitor services or regulatory transformation.",
+      "affectedStakeholders": "Communications staff, event organizers, attractions, website editors, and tourists looking for current information",
+      "importance": "medium",
+      "linkedUseCaseIds": ["use-case-event-publishing"]
+    },
+    {
+      "id": "problem-conservation-monitoring",
+      "functionId": "function-conservation",
+      "title": "Heritage condition monitoring is fragmented and difficult to automate",
+      "description": "Condition evidence is gathered through inconsistent inspections, specialist observations, photographs, environmental sensors, and contractor reports. A digital-twin agent is technically ambitious, dependent on infrastructure not yet deployed, and would initially affect a limited asset portfolio.",
+      "affectedStakeholders": "Conservators, site managers, engineers, archaeologists, contractors, and heritage asset owners",
+      "importance": "medium",
+      "linkedUseCaseIds": ["use-case-conservation-digital-twin"]
+    }
+  ],
+  "useCases": [
+    {
+      "id": "use-case-multilingual-companion",
+      "name": "Multilingual City Companion Agent",
+      "description": "A multilingual conversational agent that helps tourists discover must-see attractions, build context-aware itineraries, navigate between locations, understand local culture and etiquette, find accessible services, and resolve problems during their visit. It uses approved destination content and live service integrations, cites official sources, remembers visitor preferences only with consent, and transfers safety-sensitive, complaint, or complex service issues to a human visitor-support team.",
+      "visible": true,
+      "scores": {
+        "increasesProductivity": 7,
+        "reducesCosts": 5,
+        "benefitsPublic": 10,
+        "increaseRevenue": 7,
+        "strategicImpact": 9,
+        "dataReady": 9,
+        "techMature": 9,
+        "organizationalReadiness": 8,
+        "implementationEase": 8,
+        "integrationEase": 8
+      },
+      "risk": {
+        "ratings": {
+          "dataLeakage": "medium",
+          "cybersecurity": "medium",
+          "modelReliability": "medium",
+          "modelMisalignment": "low",
+          "biasFairness": "medium",
+          "legalCompliance": "low",
+          "safetyHumanOversight": "medium",
+          "operationalReputation": "medium"
+        }
+      },
+      "problemStatement": "Tourists cannot consistently obtain trusted, current, and personalized guidance in their preferred language while planning and moving around the city.",
+      "processAffected": "Visitor enquiry handling, itinerary planning, destination discovery, navigation support, service recovery, and escalation to human support",
+      "affectedStakeholders": "International and domestic tourists, visitor-information teams, attractions, hotels, transport operators, events, and local businesses",
+      "problemImportance": 5,
+      "linkedProblemIds": ["problem-tourist-guidance"]
+    },
+    {
+      "id": "use-case-licensing-inspection",
+      "name": "Tourism Licensing and Inspection Case Agent",
+      "description": "An internal case agent that receives licensing and renewal submissions, identifies missing evidence, retrieves the applicable regulatory requirements, prepares a traceable review pack, and proposes risk-based inspection priorities. It can assemble establishment history, draft tailored inspection checklists, structure field findings, and prepare a report for review. Authorized officers retain all interpretations of law, approvals, enforcement decisions, and applicant communications. The concept has high value but depends on difficult legacy integration, explicit business rules, consistent case data, and robust human oversight.",
+      "visible": true,
+      "scores": {
+        "increasesProductivity": 9,
+        "reducesCosts": 8,
+        "benefitsPublic": 7,
+        "increaseRevenue": 6,
+        "strategicImpact": 9,
+        "dataReady": 6,
+        "techMature": 6,
+        "organizationalReadiness": 5,
+        "implementationEase": 3,
+        "integrationEase": 4
+      },
+      "risk": {
+        "ratings": {
+          "dataLeakage": "medium",
+          "cybersecurity": "medium",
+          "modelReliability": "medium",
+          "modelMisalignment": "medium",
+          "biasFairness": "high",
+          "legalCompliance": "high",
+          "safetyHumanOversight": "medium",
+          "operationalReputation": "medium"
+        }
+      },
+      "problemStatement": "Licensing and inspection teams spend excessive time on repetitive preparation, while fragmented systems, case exceptions, and consequential decisions make full agent deployment difficult.",
+      "processAffected": "Application intake, completeness checking, regulatory research, risk triage, inspection preparation, evidence capture, report drafting, and officer approval",
+      "affectedStakeholders": "Licensing officers, inspectors, applicants, tourism businesses, legal teams, policy owners, and ministry leadership",
+      "problemImportance": 5,
+      "linkedProblemIds": ["problem-licensing-review"]
+    },
+    {
+      "id": "use-case-event-publishing",
+      "name": "Approved Event Content Publishing Agent",
+      "description": "A narrowly scoped communications agent that accepts an approved event or attraction record, checks required fields, produces channel-specific versions in the ministry's supported languages, applies the official style guide, and schedules publication to the destination website, mobile feed, newsletter queue, and approved social channels. It cannot invent event details or publish an unapproved record, and every output retains a link to the source record and named content owner. This is a practical quick win, but its portfolio impact is deliberately assessed as modest.",
+      "visible": true,
+      "scores": {
+        "increasesProductivity": 6,
+        "reducesCosts": 5,
+        "benefitsPublic": 5,
+        "increaseRevenue": 3,
+        "strategicImpact": 5,
+        "dataReady": 9,
+        "techMature": 9,
+        "organizationalReadiness": 9,
+        "implementationEase": 8,
+        "integrationEase": 8
+      },
+      "risk": {
+        "ratings": {
+          "dataLeakage": "low",
+          "cybersecurity": "low",
+          "modelReliability": "medium",
+          "modelMisalignment": "low",
+          "biasFairness": "low",
+          "legalCompliance": "low",
+          "safetyHumanOversight": "low",
+          "operationalReputation": "medium"
+        }
+      },
+      "problemStatement": "Communications teams repeatedly reformat already-approved event and attraction information for multiple channels, slowing routine publication without creating a major strategic bottleneck.",
+      "processAffected": "Content intake, required-field validation, translation, channel adaptation, approval confirmation, scheduling, and publication",
+      "affectedStakeholders": "Communications staff, event organizers, attraction teams, channel owners, and tourists seeking current listings",
+      "problemImportance": 3,
+      "linkedProblemIds": ["problem-event-publishing"]
+    },
+    {
+      "id": "use-case-conservation-digital-twin",
+      "name": "Heritage Site Conservation Digital-Twin Agent",
+      "description": "A specialist agent that would maintain a digital representation of selected heritage sites by combining building information models, environmental sensors, inspection photographs, conservation records, contractor activity, and material-degradation models. It would detect changes, propose inspection priorities, simulate deterioration scenarios, and prepare evidence for conservators. The agent would not authorize physical interventions. The concept is distinct and potentially useful, but present data coverage, sensor deployment, model maturity, system integration, specialist validation, and the limited initial asset scope make it both difficult and comparatively low impact for the current strategy period.",
+      "visible": true,
+      "scores": {
+        "increasesProductivity": 4,
+        "reducesCosts": 3,
+        "benefitsPublic": 5,
+        "increaseRevenue": 3,
+        "strategicImpact": 5,
+        "dataReady": 3,
+        "techMature": 3,
+        "organizationalReadiness": 4,
+        "implementationEase": 2,
+        "integrationEase": 2
+      },
+      "risk": {
+        "ratings": {
+          "dataLeakage": "medium",
+          "cybersecurity": "high",
+          "modelReliability": "high",
+          "modelMisalignment": "medium",
+          "biasFairness": "medium",
+          "legalCompliance": "medium",
+          "safetyHumanOversight": "high",
+          "operationalReputation": "high"
+        }
+      },
+      "problemStatement": "Conservation evidence is fragmented and difficult to compare over time, but the infrastructure and validated models required for a reliable digital-twin agent are not yet in place.",
+      "processAffected": "Condition monitoring, sensor review, inspection comparison, deterioration forecasting, intervention planning, expert validation, and conservation approval",
+      "affectedStakeholders": "Conservators, site managers, engineers, archaeologists, contractors, heritage authorities, and asset owners",
+      "problemImportance": 4,
+      "linkedProblemIds": ["problem-conservation-monitoring"]
+    }
+  ],
+  "manualPlacements": {},
+  "portfolioDecisions": {
+    "use-case-multilingual-companion": {
+      "status": "prioritized",
+      "horizon": 1
+    },
+    "use-case-licensing-inspection": {
+      "status": "prioritized",
+      "horizon": 2
+    },
+    "use-case-event-publishing": {
+      "status": "deferred",
+      "horizon": null
+    },
+    "use-case-conservation-digital-twin": {
+      "status": "deferred",
+      "horizon": null
+    }
+  }
+}
